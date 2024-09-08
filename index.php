@@ -73,12 +73,16 @@
             include "page/login.php";
             break;
 
-          case 'list_item':
+          case 'list_items':
             include "page/list_item.php";
             break;
             
           case 'add_item':
             include "page/add_item.php";
+            break;
+            
+          case 'edit_item':
+            include "page/edit_item.php";
             break;
           
           default:
