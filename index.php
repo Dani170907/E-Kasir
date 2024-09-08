@@ -46,6 +46,7 @@
           <ul class="nav navbar-nav">
             <li class=""><a href="index.php">Beranda</a></li>
             <li class=""><a href="?p=list_items">List Barang</a></li>
+            <li class=""><a href="?p=order">Pesan</a></li>
               <li><a href="#contact">Kontak</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -81,8 +82,8 @@
             include "page/add_item.php";
             break;
             
-          case 'edit_item':
-            include "page/edit_item.php";
+          case 'order':
+            include "page/order.php";
             break;
           
           default:
