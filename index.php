@@ -44,9 +44,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Beranda</a></li>
+            <li class=""><a href="index.php">Beranda</a></li>
+            <li class=""><a href="?p=list_items">List Barang</a></li>
               <li><a href="#contact">Kontak</a></li>
-
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -74,7 +74,7 @@
             break;
 
           case 'list_items':
-            include "page/list_item.php";
+            include "page/list_items.php";
             break;
             
           case 'add_item':
