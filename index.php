@@ -87,7 +87,7 @@
             break;
             
           case 'transaction':
-            include "page/trans.php";
+            include "page/transaction.php";
             break;
           
           default:
