@@ -93,6 +93,10 @@
           case 'transaction_details':
             include "page/transaction_details.php";
             break;
+            
+          case 'report':
+            include "page/report.php";
+            break;
           
           default:
             include "page/login.php";
