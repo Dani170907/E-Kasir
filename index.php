@@ -85,6 +85,10 @@
           case 'order':
             include "page/order.php";
             break;
+            
+          case 'transaction':
+            include "page/trans.php";
+            break;
           
           default:
             include "page/login.php";
