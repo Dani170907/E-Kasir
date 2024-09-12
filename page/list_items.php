@@ -38,8 +38,6 @@
     </tbody>
 </table>
 
-
-
 <div class="float-left">
     Halaman 1 dari 5
 </div>
