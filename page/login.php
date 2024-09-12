@@ -39,12 +39,33 @@
         border-top-right-radius: 0;
     }
 </style>
-<form class="form-signin">
+<form class="form-signin" method="post">
     <h2 class="form-signin-heading">Silahkan Login</h2>
     <label for="inputEmail" class="sr-only">Username</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+    <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Masuk</button>
+    <button name="login" class="btn btn-lg btn-primary btn-block" type="submit">Masuk</button>
 </form>
+
+<?php
+if(isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $query = mysqli_query($connection, $sql);
+    $check = mysqli_num_rows($query);
+    echo $check;
+
+    if ($check > 0) {
+        ?>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Gagal!</strong> username tidak ditemukan.
+        </div>
+        <?php
+    }
+}
+?>

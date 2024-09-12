@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include "config/connection.php";
 ?>
 <!DOCTYPE html>
@@ -72,7 +75,7 @@ include "config/connection.php";
       <!-- Main component for a primary marketing message or call to action -->
       
       <?php
-        $p = $_GET['p'];
+        @$p = $_GET['p'];
         switch ($p) {
           case 'login':
             include "page/login.php";
