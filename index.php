@@ -48,6 +48,7 @@
             <li class=""><a href="?p=list_items">List Barang</a></li>
             <li class=""><a href="?p=order">Pesan</a></li>
             <li class=""><a href="?p=transactions">Transaksi</a></li>
+            <li class=""><a href="?p=reports">Laporan</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -94,8 +95,8 @@
             include "page/transaction_details.php";
             break;
             
-          case 'report':
-            include "page/report.php";
+          case 'reports':
+            include "page/reports.php";
             break;
           
           default:
