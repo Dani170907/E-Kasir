@@ -67,8 +67,6 @@ if(isset($_POST['login'])) {
         </div>
         <?php
     } else {
-        // Lakukan verifikasi password jika username ditemukan
-        // ...
         echo "Login berhasil!";
     }
 }
