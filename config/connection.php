@@ -6,7 +6,7 @@ $connection = mysqli_connect("localhost", "root", "", "kasir");
 if (!$connection) {
     die("Koneksi gagal: " . mysqli_connect_error());
 } else {
-    // echo "Koneksi Berhasil"; // Ini bisa dihapus atau dinonaktifkan jika tidak perlu
+    // echo "Koneksi Berhasil";
 }
 
 ?>
