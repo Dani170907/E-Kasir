@@ -59,13 +59,17 @@ if(isset($_POST['login'])) {
     $check = mysqli_num_rows($query);
     echo $check;
 
-    if ($check > 0) {
+    if ($check == 0) {
         ?>
         <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Gagal!</strong> username tidak ditemukan.
+            <strong>Gagal!</strong> Username tidak ditemukan.
         </div>
         <?php
+    } else {
+        // Lakukan verifikasi password jika username ditemukan
+        // ...
+        echo "Login berhasil!";
     }
 }
 ?>

@@ -2,10 +2,11 @@
 
 $connection = mysqli_connect("localhost", "root", "", "kasir");
 
-if (mysqli_connect_errno()) {
-    echo "Koneksi error : " . mysqli_connect_error();   
+// Pengecekan koneksi
+if (!$connection) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 } else {
-    // echo "Koneksi Berhasil";
+    // echo "Koneksi Berhasil"; // Ini bisa dihapus atau dinonaktifkan jika tidak perlu
 }
 
 ?>
