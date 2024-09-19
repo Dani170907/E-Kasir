@@ -1,4 +1,4 @@
-<style>
+    <style>
     body {
         padding-top: 40px;
         padding-bottom: 40px;
@@ -50,24 +50,36 @@
 </form>
 
 <?php
-if(isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $query = mysqli_query($connection, $sql);
-    $check = mysqli_num_rows($query);
-    echo $check;
+if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    if ($check == 0) {
-        ?>
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Gagal!</strong> Username tidak ditemukan.
-        </div>
-        <?php
+        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $query = mysqli_query($connection, $sql);
+        $check = mysqli_num_rows($query);
+        echo $check;
+
+    if ($check > 0) {
+        $data = mysqli_fetch_array($query);
+        $password = md5($password);
+        $password = trim($password);
+        $pass_db = trim($data['password']);
+
+        if ($password == $pass_db) {
+            session('user') == $username;
+        } else {
+            echo "Beda";
+        }
+
     } else {
-        echo "Login berhasil!";
-    }
+        ?>
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Gagal!</strong> Password Anda Salah
+            </div>
+        <?php
+    } 
 }
+
 ?>
