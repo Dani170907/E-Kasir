@@ -105,6 +105,10 @@ include "config/connection.php";
           case 'reports':
             include "page/reports.php";
             break;
+            
+          case 'home':
+            include "page/home.php";
+            break;
           
           default:
             include "page/login.php";
