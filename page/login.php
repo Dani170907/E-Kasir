@@ -50,36 +50,49 @@
 </form>
 
 <?php
-
 if (isset($_POST['login'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE username = '$username'";
-        $query = mysqli_query($connection, $sql);
-        $check = mysqli_num_rows($query);
-        echo $check;
+    // Query untuk mendapatkan data user berdasarkan username
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $query = mysqli_query($connection, $sql);
+    $check = mysqli_num_rows($query);
+
+    // Debug jumlah data yang ditemukan
+    echo "Jumlah data ditemukan: " . $check . "<br>";
 
     if ($check > 0) {
         $data = mysqli_fetch_array($query);
-        $password = md5($password);
-        $password = trim($password);
+
+        // Ambil password dari database
         $pass_db = trim($data['password']);
+        // Ambil password dari input, juga di-trim
+        $password_input = trim($password);
 
-        if ($password == $pass_db) {
-            session('user') == $username;
+        // Debug panjang password dari database dan input
+        echo "Panjang password input: " . strlen($password_input) . "<br>";
+        echo "Panjang password dari database: " . strlen($pass_db) . "<br>";
+
+        // Bandingkan password dari input dan database
+        if ($password_input === $pass_db) {
+            echo "Sama";
         } else {
-            echo "Beda";
-        }
-
-    } else {
-        ?>
+            echo "Input password: " . $password_input . "<br>";
+            echo "Password database: " . $pass_db . "<br>";
+            ?>
             <div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Gagal!</strong> Password Anda Salah
+                <strong>Gagal!</strong> Password Anda salah
             </div>
+            <?php
+        }
+    } else {
+        ?>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Gagal!</strong> Username tidak ditemukan
+        </div>
         <?php
     } 
 }
-
-?>
