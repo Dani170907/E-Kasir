@@ -76,6 +76,9 @@ include "config/connection.php";
       <!-- Main component for a primary marketing message or call to action -->
       
       <?php
+      if(isset($_SESSION['username'])) {
+        $user = $_SESSION['username'];
+      
         @$p = $_GET['p'];
         switch ($p) {
           case 'login':
@@ -113,6 +116,10 @@ include "config/connection.php";
           default:
             include "page/login.php";
             break;
+        }
+        
+        } else {
+          include "page/login.php";
         }
       ?>
 
