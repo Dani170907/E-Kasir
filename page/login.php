@@ -54,6 +54,9 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Enkripsi password input menggunakan md5
+    $password_input = md5(trim($password));
+
     // Query untuk mendapatkan data user berdasarkan username
     $sql = "SELECT * FROM users WHERE username = '$username'";
     $query = mysqli_query($connection, $sql);
@@ -65,20 +68,18 @@ if (isset($_POST['login'])) {
     if ($check > 0) {
         $data = mysqli_fetch_array($query);
 
-        // Ambil password dari database
+        // Ambil password yang sudah di-enkripsi md5 dari database
         $pass_db = trim($data['password']);
-        // Ambil password dari input, juga di-trim
-        $password_input = trim($password);
 
-        // Debug panjang password dari database dan input
+        // Debug panjang password dari input dan dari database
         echo "Panjang password input: " . strlen($password_input) . "<br>";
         echo "Panjang password dari database: " . strlen($pass_db) . "<br>";
 
-        // Bandingkan password dari input dan database
+        // Bandingkan password input yang sudah di-enkripsi dengan password di database
         if ($password_input === $pass_db) {
             echo "Sama";
         } else {
-            echo "Input password: " . $password_input . "<br>";
+            echo "Input password (md5): " . $password_input . "<br>";
             echo "Password database: " . $pass_db . "<br>";
             ?>
             <div class="alert alert-warning alert-dismissible" role="alert">
