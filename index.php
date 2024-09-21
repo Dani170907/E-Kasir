@@ -76,52 +76,44 @@ include "config/connection.php";
       <!-- Main component for a primary marketing message or call to action -->
       
       <?php
-      if(isset($_SESSION['username'])) {
-        $user = $_SESSION['username'];
-      
-        @$p = $_GET['p'];
-        switch ($p) {
-          case 'login':
-            include "page/login.php";
-            break;
-
-          case 'list_items':
-            include "page/list_items.php";
-            break;
-            
-          case 'add_item':
-            include "page/add_item.php";
-            break;
-            
-          case 'order':
-            include "page/order.php";
-            break;
-            
-          case 'transactions':
-            include "page/transactions.php";
-            break;
-            
-          case 'transaction_details':
-            include "page/transaction_details.php";
-            break;
-            
-          case 'reports':
-            include "page/reports.php";
-            break;
-            
-          case 'home':
-            include "page/home.php";
-            break;
-          
-          default:
-            include "page/login.php";
-            break;
-        }
+      if (isset($_SESSION['username'])) {
+          $user = $_SESSION['username'];
         
-        } else {
+          @$p = $_GET['p'];
+          switch ($p) {
+              case 'login':
+                  include "page/login.php";
+                  break;
+              case 'list_items':
+                  include "page/list_items.php";
+                  break;
+              case 'add_item':
+                  include "page/add_item.php";
+                  break;
+              case 'order':
+                  include "page/order.php";
+                  break;
+              case 'transactions':
+                  include "page/transactions.php";
+                  break;
+              case 'transaction_details':
+                  include "page/transaction_details.php";
+                  break;
+              case 'reports':
+                  include "page/reports.php";
+                  break;
+              case 'home':
+                  include "page/home.php";
+                  break;
+              default:
+                  include "page/login.php";
+                  break;
+          }
+      } else {
           include "page/login.php";
-        }
+      }
       ?>
+
 
     </div> <!-- /container -->
 

@@ -62,30 +62,22 @@ if (isset($_POST['login'])) {
     $query = mysqli_query($connection, $sql);
     $check = mysqli_num_rows($query);
 
-    // Debug jumlah data yang ditemukan
-    // echo "Jumlah data ditemukan: " . $check . "<br>";
-
     if ($check > 0) {
         $data = mysqli_fetch_array($query);
 
         // Ambil password yang sudah di-enkripsi md5 dari database
         $pass_db = trim($data['password']);
 
-        // Debug panjang password dari input dan dari database
-        // echo "Panjang password input: " . strlen($password_input) . "<br>";
-        // echo "Panjang password dari database: " . strlen($pass_db) . "<br>";
-
         // Bandingkan password input yang sudah di-enkripsi dengan password di database
         if ($password_input === $pass_db) {
-            $_SESSION['username'] == $username;
+            // Simpan username ke session
+            $_SESSION['username'] = $username;
             ?>
-                <script type="text/javascript">
-                    window.location.href="?p=home";
-                </script>
+            <script type="text/javascript">
+                window.location.href="?p=home";
+            </script>
             <?php
         } else {
-            // echo "Input password (md5): " . $password_input . "<br>";
-            // echo "Password database: " . $pass_db . "<br>";
             ?>
             <div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -102,3 +94,4 @@ if (isset($_POST['login'])) {
         <?php
     } 
 }
+?>
