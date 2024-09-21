@@ -56,23 +56,31 @@ if(isset($_SESSION['username']) && isset($_SESSION['level'])) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">E-Kasir</a>
+          <a class="navbar-brand" href="?p=home">E-Kasir</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class=""><a href="index.php">Beranda</a></li>
-            <li class=""><a href="?p=list_items">List Barang</a></li>
-            <li class=""><a href="?p=order">Pesan</a></li>
-            <li class=""><a href="?p=transactions">Transaksi</a></li>
-            <li class=""><a href="?p=reports">Laporan</a></li>
+            <?php if(@$level == "admin") : ?>
+              <li class=""><a href="?p=list_items">List Barang</a></li>
+              <li class=""><a href="?p=order">Pesan</a></li>
+              <li class=""><a href="?p=transactions">Transaksi</a></li>
+              <li class=""><a href="?p=reports">Laporan</a></li>
+            <?php elseif(@$level == "pemilik") : ?>
+              <li class=""><a href="?p=reports">Laporan</a></li> <!-- Limit to reports -->
+            <?php elseif(@$level == "kasir") : ?>
+              <li class=""><a href="?p=order">Pesan</a></li>
+              <li class=""><a href="?p=transactions">Transaksi</a></li> <!-- Limit to orders and transactions -->
+              <li class=""><a href="?p=reports">Laporan</a></li>
+            <?php endif; ?>
           </ul>
+
           <ul class="nav navbar-nav navbar-right">
             <?php
               if(isset($user)) {
                 ?>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                      Admin(<?= isset($level)  ? $level : '' ?>) <span class="caret"></span>
+                      <?= $user ?> (<?= $level ?>) <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                       <li><a href="page/logout.php">Keluar</a></li>
