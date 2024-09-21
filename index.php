@@ -63,7 +63,7 @@ include "config/connection.php";
                 Admin(Admin) <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="#">Keluar</a></li>
+                <li><a href="page/logout.php">Keluar</a></li>
               </ul>
             </li>
           </ul>
