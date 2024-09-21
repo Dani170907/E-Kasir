@@ -77,7 +77,7 @@ if (isset($_POST['login'])) {
 
         // Bandingkan password input yang sudah di-enkripsi dengan password di database
         if ($password_input === $pass_db) {
-            echo "Sama";
+            session('user') == $user;
         } else {
             // echo "Input password (md5): " . $password_input . "<br>";
             // echo "Password database: " . $pass_db . "<br>";
