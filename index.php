@@ -4,6 +4,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include "config/connection.php";
+if(isset($_SESSION['username'])) {
+  $user = $_SESSION['username'];
+  $level = $_SESSION['level'];
+}
+
+if(isset($_SESSION['username']) && isset($_SESSION['level'])) {
+  $user = $_SESSION['username'];
+  $level = $_SESSION['level'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,14 +67,20 @@ include "config/connection.php";
             <li class=""><a href="?p=reports">Laporan</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Admin(Admin) <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="page/logout.php">Keluar</a></li>
-              </ul>
-            </li>
+            <?php
+              if(isset($user)) {
+                ?>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                      Admin(<?= isset($level)  ? $level : '' ?>) <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="page/logout.php">Keluar</a></li>
+                    </ul>
+                  </li>
+                <?php
+              } 
+            ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

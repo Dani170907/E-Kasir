@@ -72,6 +72,7 @@ if (isset($_POST['login'])) {
         if ($password_input === $pass_db) {
             // Simpan username ke session
             $_SESSION['username'] = $username;
+            $_SESSION['level'] = $data['level'];
             ?>
             <script type="text/javascript">
                 window.location.href="?p=home";
