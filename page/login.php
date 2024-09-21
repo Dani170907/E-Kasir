@@ -1,4 +1,11 @@
-    <style>
+<?php if(isset($user)) : ?>
+    <script type="text/javascript">
+        window.location.href="?p=home";
+    </script>
+<?php endif; ?>
+
+
+<style>
     body {
         padding-top: 40px;
         padding-bottom: 40px;
