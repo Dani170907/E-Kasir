@@ -16,7 +16,7 @@
         <tr>
             <th>No</th>
             <th>Nama Barang</th>
-            <th>Kategory</th>
+            <th>Kategori</th>
             <th>Harga</th>
             <th>Tanggal Ditambahkan</th>
             <th>Dirubah</th>
@@ -40,8 +40,8 @@
                         <td><?= $data['createdAt'] ?></td>
                         <td><?= $data['updatedAt'] ?></td>
                         <td>
-                            <a class="btn btn-danger btn-sm" href=""> <span class="glyphicon glyphicon-trash"></span> </a>
-                            |
+                            <a onclick="return confirm('Beneran mau dihapus bang?')" class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>"> <span class="glyphicon glyphicon-trash"></span> </a>
+   |
                             <a class="btn btn-info btn-sm" href=""> <span class="glyphicon glyphicon-edit"></span> </a>
                         </td>
                     </tr>
