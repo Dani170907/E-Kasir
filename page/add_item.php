@@ -30,7 +30,7 @@
         </form>
     </div>
         <?php
-        if (isset($_POST['save'])) {
+        if (isset($_POST['save'])) :
             $productName = $_POST['productName'];
             $category = $_POST['category'];
             $price = $_POST['price'];
@@ -43,12 +43,15 @@
 
             $query = mysqli_query($connection, $sql);
 
-            if ($query) {
-                echo "Berhasil";
-            } else {
-                echo "Gagal: " . mysqli_error($connection); 
-            }
-        }
-        ?>
+            if ($query) : ?>
+                <div class="alert alert-success">
+                    Barang berhasil ditambahkan
+                </div>
+            <?php else : ?>
+                <div class="alert alert-danger">
+                    Gagal
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
