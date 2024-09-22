@@ -16,6 +16,7 @@
         <tr>
             <th>No</th>
             <th>Nama Barang</th>
+            <th>Kategory</th>
             <th>Harga</th>
             <th>Tanggal Ditambahkan</th>
             <th>Dirubah</th>
@@ -23,7 +24,29 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <?php
+            $sql = "SELECT * FROM products";
+            $query = mysqli_query($connection, $sql);
+            $check = mysqli_num_rows($query);
+
+            $no = 1;
+            if ( $check > 0 )  {
+                while($data = mysqli_fetch_array($query)) {
+
+                ?>
+                    <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?= $data['productName'] ?></td>
+                        <td><?= $data['category'] ?></td>
+                        <td><?= "Rp " . number_format($data['price'],2,',','.'); ?></td>
+                        <td><?= $data['createdAt'] ?></td>
+                        <td><?= $data['updatedAt'] ?></td>
+                    </tr>
+                <?php
+                }
+            }
+        ?>
+        <!-- <tr>
             <td>1</td>
             <td>Hoodie</td>
             <td>250.000</td>
@@ -34,7 +57,7 @@
                 |
                 <a class="btn btn-info btn-sm" href=""> <span class="glyphicon glyphicon-edit"></span> </a>
             </td>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
 
