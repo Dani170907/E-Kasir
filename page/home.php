@@ -22,7 +22,6 @@ function getTime() {
     } else {
         return "Malam";
     }
-    
 }
 function salam($name) {
     $currentTime = getTime();
