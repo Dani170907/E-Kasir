@@ -1,7 +1,7 @@
 <h2>Daftar Barang</h2>
 <br>
 
-<a class="btn btn-primary btn-md" href=""><span class="glyphicon glyphicon-plus"></span></a>
+<a class="btn btn-primary btn-md" href="?p=add_item"><span class="glyphicon glyphicon-plus"></span></a>
 <br>
 
 <div style="float: right">
