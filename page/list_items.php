@@ -30,10 +30,8 @@
             $check = mysqli_num_rows($query);
 
             $no = 1;
-            if ( $check > 0 )  {
-                while($data = mysqli_fetch_array($query)) {
-
-                ?>
+            if ( $check > 0 )  :
+                while($data = mysqli_fetch_array($query)) : ?>
                     <tr>
                         <td><?= $no++ ?></td>
                         <td><?= $data['productName'] ?></td>
@@ -41,11 +39,20 @@
                         <td><?= "Rp " . number_format($data['price'],2,',','.'); ?></td>
                         <td><?= $data['createdAt'] ?></td>
                         <td><?= $data['updatedAt'] ?></td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" href=""> <span class="glyphicon glyphicon-trash"></span> </a>
+                            |
+                            <a class="btn btn-info btn-sm" href=""> <span class="glyphicon glyphicon-edit"></span> </a>
+                        </td>
                     </tr>
-                <?php
-                }
-            }
-        ?>
+            <?php endwhile; ?>
+        <?php else : ?>
+            <tr>
+                <td colspan="7">
+                    Tidak ada data!
+                </td>
+            </tr>    
+        <?php endif; ?>
         <!-- <tr>
             <td>1</td>
             <td>Hoodie</td>
