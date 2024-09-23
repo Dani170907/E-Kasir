@@ -5,9 +5,12 @@
 <br>
 
 <div style="float: right">
-    <form action="" class="form-inline" >
-        <input placeholder="Cari disini" type="text" name="cari" class="form-control">
-        <button type="submit" class="btn btn-sm btn-primary"> <span class="glyphicon glyphicon-search"></span> </button>
+    <form method="get" class="form-inline">
+        <input type="hidden" name="p" value="list_items">
+        <input placeholder="Cari disini" type="text" name="search" class="form-control">
+        <button type="submit" class="btn btn-sm btn-primary">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
     </form>
 </div>
 
@@ -25,40 +28,46 @@
     </thead>
     <tbody>
         <?php
-            $sql = "SELECT * FROM products";
+            @$search = $_GET['search'];
+            $searchQuery = "";
+            if (!empty($search)) {
+                $searchQuery .= " AND productName LIKE '%" . $search . "%'";
+            }
+
+            $sql = "SELECT * FROM products WHERE 1=1 $searchQuery";
             $query = mysqli_query($connection, $sql);
             $check = mysqli_num_rows($query);
 
             $no = 1;
-            if ( $check > 0 )  :
-                while($data = mysqli_fetch_array($query)) : ?>
+            if ($check > 0) :
+                while ($data = mysqli_fetch_array($query)) : ?>
                     <tr>
                         <td><?= $no++ ?></td>
                         <td><?= $data['productName'] ?></td>
                         <td><?= $data['category'] ?></td>
-                        <td><?= "Rp " . number_format($data['price'],2,',','.'); ?></td>
+                        <td><?= "Rp " . number_format($data['price'], 2, ',', '.'); ?></td>
                         <td><?= $data['createdAt'] ?></td>
                         <td><?= $data['updatedAt'] ?></td>
                         <td>
-                            <a onclick="return confirm('Beneran mau dihapus bang?')" class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>"> <span class="glyphicon glyphicon-trash"></span> </a>
-   |
-                            <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>"> <span class="glyphicon glyphicon-edit"></span> </a>
+                            <a onclick="return confirm('Beneran mau dihapus bang?')" class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                            |
+                            <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
                         </td>
                     </tr>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
         <?php else : ?>
             <tr>
-                <td colspan="7">
-                    Tidak ada data!
-                </td>
-            </tr>    
+                <td colspan="7">Tidak ada data!</td>
+            </tr>
         <?php endif; ?>
     </tbody>
 </table>
 
-<div class="float-left">
-    Halaman 1 dari 5
-</div>
+<div class="float-left">Halaman 1 dari 5</div>
 
 <div style="float: right;">
     <nav aria-label="Page navigation">
@@ -74,9 +83,9 @@
             <li><a href="#">4</a></li>
             <li><a href="#">5</a></li>
             <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
             </li>
         </ul>
     </nav>

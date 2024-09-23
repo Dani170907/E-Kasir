@@ -68,9 +68,9 @@
 
             $queryUpdate = mysqli_query($connection, $sqlUpdate);
             if ($queryUpdate) : ?>
-                <div class="alert alert-success">
-                    Berhasil menyimpan
-                </div>
+                <script type="text/javascript">
+                    window.location.href="?p=list_items";
+                </script>
             <?php else : ?>
                 <div class="alert alert-danger">
                     Gagal menyimpan!
