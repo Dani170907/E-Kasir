@@ -113,6 +113,9 @@ if(isset($_SESSION['username']) && isset($_SESSION['level'])) {
               case 'add_item':
                   include "page/add_item.php";
                   break;
+              case 'edit_item':
+                  include "page/edit_item.php";
+                  break;
               case 'order':
                   include "page/order.php";
                   break;

@@ -42,7 +42,7 @@
                         <td>
                             <a onclick="return confirm('Beneran mau dihapus bang?')" class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>"> <span class="glyphicon glyphicon-trash"></span> </a>
    |
-                            <a class="btn btn-info btn-sm" href=""> <span class="glyphicon glyphicon-edit"></span> </a>
+                            <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>"> <span class="glyphicon glyphicon-edit"></span> </a>
                         </td>
                     </tr>
             <?php endwhile; ?>
@@ -53,18 +53,6 @@
                 </td>
             </tr>    
         <?php endif; ?>
-        <!-- <tr>
-            <td>1</td>
-            <td>Hoodie</td>
-            <td>250.000</td>
-            <td>06-09-2024</td>
-            <td>06-09-2024</td>
-            <td>
-                <a class="btn btn-danger btn-sm" href=""> <span class="glyphicon glyphicon-trash"></span> </a>
-                |
-                <a class="btn btn-info btn-sm" href=""> <span class="glyphicon glyphicon-edit"></span> </a>
-            </td>
-        </tr> -->
     </tbody>
 </table>
 
