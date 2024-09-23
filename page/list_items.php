@@ -34,11 +34,21 @@
                 $searchQuery .= " AND productName LIKE '%" . $search . "%'";
             }
 
-            $sql = "SELECT * FROM products WHERE 1=1 $searchQuery";
+            $pagination = 5;
+            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+            $start = $page > 1 ? $page * $pagination - $pagination : 0;
+
+            $sql = "SELECT * FROM products WHERE 1=1 $searchQuery LIMIT $start,$pagination";
             $query = mysqli_query($connection, $sql);
             $check = mysqli_num_rows($query);
+            // Cari total
+            $sqlTotal =  "SELECT * FROM products";
+            $queryTotal = mysqli_query($connection, $sqlTotal);
+            $total = mysqli_num_rows($queryTotal);
+            $numOfPages = ceil($total / $pagination);
 
-            $no = 1;
+            $no = $start + 1;
             if ($check > 0) :
                 while ($data = mysqli_fetch_array($query)) : ?>
                     <tr>
@@ -67,7 +77,9 @@
     </tbody>
 </table>
 
-<div class="float-left">Halaman 1 dari 5</div>
+<div class="float-left">
+    Jumlah : <?= $check ?>
+</div>
 
 <div style="float: right;">
     <nav aria-label="Page navigation">
@@ -77,11 +89,17 @@
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
+            <?php
+                for ($i=1; $i <= $numOfPages; $i++) { 
+                    ?>
+                    <li><a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a></li>
+                    <?php
+                }
+            ?>
+            <!-- <li><a href="#">2</a></li>
             <li><a href="#">3</a></li>
             <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
+            <li><a href="#">5</a></li> --> -->
             <li>
                 <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
