@@ -5,14 +5,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include "config/connection.php";
 if(isset($_SESSION['username'])) {
-  $user = $_SESSION['username'];
-  $level = $_SESSION['level'];
+  @$user = $_SESSION['username'];
+  @$level = $_SESSION['level'];
+  @$userId = $_SESSION['userId'];
 }
 
-if(isset($_SESSION['username']) && isset($_SESSION['level'])) {
-  $user = $_SESSION['username'];
-  $level = $_SESSION['level'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,6 +98,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['level'])) {
       <?php
       if (isset($_SESSION['username'])) {
           $user = $_SESSION['username'];
+
         
           @$p = $_GET['p'];
           switch ($p) {

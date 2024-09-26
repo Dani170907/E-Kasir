@@ -80,6 +80,7 @@ if (isset($_POST['login'])) {
             // Simpan username ke session
             $_SESSION['username'] = $username;
             $_SESSION['level'] = $data['level'];
+            $_SESSION['userId'] = $data['userId'];
             ?>
             <script type="text/javascript">
                 window.location.href="?p=home";
