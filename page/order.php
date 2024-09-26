@@ -6,15 +6,15 @@ $data = mysqli_fetch_array($query);
 $customerId = isset($data['maxKode']) ? $data['maxKode'] : null;
 
 if ($customerId) {
-    $noUrut = (int) substr($customerId, 3, 3);
+    $serialNumber = (int) substr($customerId, 3, 3);
 } else {
-    $noUrut = 0;
+    $serialNumber = 0;
 }
 
-$noUrut++;
+$serialNumber++;
 
 $char = "PLG";
-$customerCode = $char . sprintf("%03s", $noUrut);
+$customerCode = $char . sprintf("%03s", $serialNumber);
 echo $customerCode;
 ?>
 
@@ -89,7 +89,7 @@ echo $customerCode;
                     </div>
                 </form>
 
-                <!-- <?php if (isset($_POST['save'])) : ?>
+                <?php if (isset($_POST['save'])) : ?>
                     <?php 
                         // Mendapatkan data dari form
                         $customerId = $_POST['customerId'];
@@ -105,7 +105,7 @@ echo $customerCode;
                                          VALUES ('$customerId', '$customerName', '$gender', '$phoneNumber', '$address')";
                         $queryInput = mysqli_query($connection, $sqlCustomers);
 
-                        if ($queryInput) { 
+                        if ($queryInput) {
                             // Insert data ke tabel orders
                             $userId = 1; // Misalnya userId dari session user login
                             $sqlOrder = "INSERT INTO orders (productId, customerId, quantity, userId, status) 
@@ -113,7 +113,12 @@ echo $customerCode;
                             $queryOrder = mysqli_query($connection, $sqlOrder);
 
                             if ($queryOrder) {
-                                echo '<div class="alert alert-success">Berhasil Menyimpan</div>';
+                                ?>
+                                <script>
+                                    alert('Berhasil Menyimpan Pesanan');
+                                    window.location.href = "?p=order";  // Refresh halaman setelah alert tampil
+                                </script>
+                                <?php
                             } else {
                                 echo '<div class="alert alert-danger">Gagal Menyimpan Pesanan</div>';
                             }
@@ -121,7 +126,7 @@ echo $customerCode;
                             echo '<div class="alert alert-danger">Gagal Menyimpan Pelanggan</div>';
                         }
                     ?>
-                <?php endif; ?> -->
+                <?php endif; ?>
             </div>
         </div>
     </div>
