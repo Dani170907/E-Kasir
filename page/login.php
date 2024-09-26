@@ -63,6 +63,7 @@ if (isset($_POST['login'])) {
 
     // Enkripsi password input menggunakan md5
     $password_input = md5(trim($password));
+    // echo $password_input;
 
     // Query untuk mendapatkan data user berdasarkan username
     $sql = "SELECT * FROM users WHERE username = '$username'";

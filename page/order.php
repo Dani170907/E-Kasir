@@ -1,16 +1,20 @@
 <?php
-$sql = "SELECT max(customerId) as maxCode FROM customers";
-$query = mysqli_query($connection, $sql); // Perbaikan di sini, mengganti my_sqli_query dengan mysqli_query
+$sql = "SELECT max(customerId) as maxKode FROM customers";
+$query = mysqli_query($connection, $sql);
 
-$data = mysqli_fetch_array($query); // Perbaikan di sini, mengganti my_sqli_fetch_array dengan mysqli_fetch_array
-$customerId = $data['maxCode'];
+$data = mysqli_fetch_array($query);
+$customerId = isset($data['maxKode']) ? $data['maxKode'] : null;
 
+if ($customerId) {
+    $noUrut = (int) substr($customerId, 3, 3);
+} else {
+    $noUrut = 0;
+}
 
-$serialNumber = (int) substr($customerId, -3); // Mengubah parameter substr agar sesuai dengan serial number
-$serialNumber++;
+$noUrut++;
 
 $char = "PLG";
-$customerCode = $char . sprintf("%03s", $serialNumber);
+$customerCode = $char . sprintf("%03s", $noUrut);
 echo $customerCode;
 ?>
 
@@ -31,13 +35,13 @@ echo $customerCode;
                         </div>
 
                         <div class="form-group">
-                            <label for="ID Pelanggan">Nama Pelanggan</label>
+                            <label for="Nama Pelanggan">Nama Pelanggan</label>
                             <input type="text" name="customerName" class="form-control" value="">
                         </div>
 
                         <div class="form-group">
-                            <label for="ID Pelanggan">Jenis Kelamin</label>
-                            <select name="gender" id="" class="form-control">
+                            <label for="Jenis Kelamin">Jenis Kelamin</label>
+                            <select name="gender" class="form-control">
                                 <option value="" disabled selected> ~ Jenis Kelamin ~ </option>
                                 <option value="Male">Laki-laki</option>
                                 <option value="Female">Perempuan</option>
@@ -45,36 +49,39 @@ echo $customerCode;
                         </div>
 
                         <div class="form-group">
-                            <label for="">No. Telepon</label>
+                            <label for="No. Telepon">No. Telepon</label>
                             <input type="number" name="phoneNumber" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="">Alamat</label>
-                            <textarea name="address" id="" class="form-control"></textarea>
+                            <label for="Alamat">Alamat</label>
+                            <textarea name="address" class="form-control"></textarea>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Barang</label>
-                            <select name="productId" id="" class="form-control">
+                            <label for="Barang">Barang</label>
+                            <select name="productId" class="form-control">
                                 <option value="" disabled selected> ~ Pilih Barang ~ </option>
                                 <?php
                                 $sqlProducts = "SELECT * FROM products";
-                                $queryProducts = mysqli_query($connection, $sqlProducts); // Perbaikan di sini
-                                while ($product = mysqli_fetch_array($queryProducts)) : // Perbaikan di sini
+                                $queryProducts = mysqli_query($connection, $sqlProducts);
+
+                                while ($product = mysqli_fetch_array($queryProducts)) {
                                     ?>
-                                    <option value="<?= $product['productId'] ?>"><?= $product['productName'] ?></option>
+                                    <option value="<?= $product['productId'] ?>">
+                                        <?= $product['productName'] ?>
+                                    </option>
                                     <?php
-                                endwhile;
+                                }
                                 ?>
                             </select>
-                        </div>    
+                        </div>
 
                         <div class="form-group">
-                            <label for="">Jumlah</label>
-                            <input type="number" name="total" class="form-control">
+                            <label for="Jumlah">Jumlah</label>
+                            <input type="number" name="quantity" class="form-control">
                         </div>
                         <div class="form-group">
                             <button type="submit" name="save" class="btn btn-md btn-primary">Simpan</button>
@@ -82,45 +89,46 @@ echo $customerCode;
                     </div>
                 </form>
 
-                <?php if (isset($_POST['save'])) : ?>
+                <!-- <?php if (isset($_POST['save'])) : ?>
                     <?php 
-                        $customerId = $_POST['customerId']; 
+                        // Mendapatkan data dari form
+                        $customerId = $_POST['customerId'];
                         $customerName = $_POST['customerName'];
                         $gender = $_POST['gender'];
                         $phoneNumber = $_POST['phoneNumber'];
                         $address = $_POST['address'];
                         $productId = $_POST['productId'];
-                        $total = $_POST['total'];
-                        $userId = 1; // Sesuaikan dengan ID user yang sedang login
+                        $quantity = $_POST['quantity'];
 
-                        $sqlCustomers = "INSERT INTO customers (customerId, customerName, gender, phoneNumber, address) VALUES ('$customerId', '$customerName', '$gender', '$phoneNumber', '$address')";
+                        // Insert data ke tabel customers
+                        $sqlCustomers = "INSERT INTO customers (customerId, customerName, gender, phoneNumber, address) 
+                                         VALUES ('$customerId', '$customerName', '$gender', '$phoneNumber', '$address')";
                         $queryInput = mysqli_query($connection, $sqlCustomers);
+
                         if ($queryInput) { 
-                            $sqlOrder = "INSERT INTO orders (productId, customerId, total, userId, status) VALUES ('$productId', '$customerId', '$total', '$userId', '0')";
+                            // Insert data ke tabel orders
+                            $userId = 1; // Misalnya userId dari session user login
+                            $sqlOrder = "INSERT INTO orders (productId, customerId, quantity, userId, status) 
+                                         VALUES ('$productId', '$customerId', '$quantity', '$userId', '0')";
                             $queryOrder = mysqli_query($connection, $sqlOrder);
+
                             if ($queryOrder) {
-                                ?>
-                                <div class="alert alert-success">Berhasil Menyimpan</div>
-                                <?php
+                                echo '<div class="alert alert-success">Berhasil Menyimpan</div>';
                             } else {
-                                ?>
-                                <div class="alert alert-danger">Gagal Menyimpan</div>
-                                <?php
+                                echo '<div class="alert alert-danger">Gagal Menyimpan Pesanan</div>';
                             }
                         } else {
-                            ?>
-                            <div class="alert alert-danger">Gagal Menyimpan</div>
-                            <?php
+                            echo '<div class="alert alert-danger">Gagal Menyimpan Pelanggan</div>';
                         }
                     ?>
-                <?php endif; ?>
+                <?php endif; ?> -->
             </div>
         </div>
     </div>
 
     <div class="col-lg-7">
         <div class="panel panel-default">
-            <div class="panel panel-heading">
+            <div class="panel-heading">
                 Daftar Pesanan Hari Ini
             </div>
             <div class="panel-body">
@@ -135,7 +143,9 @@ echo $customerCode;
                             <th>Opsi</th>
                         </tr>
                     </thead>
-                    <!-- Tambahkan daftar pesanan di sini -->
+                    <tbody>
+                        <!-- Daftar pesanan akan ditampilkan di sini -->
+                    </tbody>
                 </table>
             </div>
         </div>
