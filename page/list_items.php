@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <h2>Daftar Barang</h2>
 <br>
 
@@ -59,7 +61,8 @@
                         <td><?= $data['createdAt'] ?></td>
                         <td><?= $data['updatedAt'] ?></td>
                         <td>
-                            <a onclick="return confirm('Beneran mau dihapus bang?')" class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>">
+                        <a class="btn btn-danger btn-sm" href="javascript:void(0)" 
+                            onclick="confirmDelete(<?= $data['productId'] ?>)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                             |
@@ -104,3 +107,25 @@
         </ul>
     </nav>
 </div>
+<script>
+function confirmDelete(productId) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `page/delete_item.php?productId=${productId}`;
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+            });
+        }
+    });
+}
+</script>

@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="row">
 <h2>Tambah Barang</h2>
     <div class="col-lg-4">
@@ -44,9 +45,9 @@
                 $query = mysqli_query($connection, $sql);
 
                 if ($query) : ?>
-                    <div class="alert alert-success mt-3">
-                        Barang berhasil ditambahkan
-                    </div>
+                    <script>
+                        Swal.fire("Barang Berhasil Ditambahkan");
+                    </script>
                 <?php else : ?>
                     <div class="alert alert-danger mt-3">
                         Gagal menambahkan barang, silakan coba lagi.
