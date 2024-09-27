@@ -15,12 +15,13 @@ if (isset($_GET['productId'])) {
     
     if ($query) : ?>
         <script type="text/javascript">
-            window.location.href="../index.php?p=list_items";
+            // Redirect ke halaman list_items dengan pesan sukses menggunakan SweetAlert2
+            window.location.href="../index.php?p=list_items&message=deleted";
         </script>
     <?php else : ?>
         <script type="text/javascript">
-            alert('Terjadi Kesalahan!');
-            window.location.href="../index.php?p=list_items";
+            // Redirect ke halaman list_items dengan pesan error menggunakan SweetAlert2
+            window.location.href="../index.php?p=list_items&message=error";
         </script>
     <?php endif;
 } else {

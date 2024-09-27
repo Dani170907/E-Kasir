@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <h2>Daftar Barang</h2>
 <br>
 
@@ -61,8 +59,7 @@
                         <td><?= $data['createdAt'] ?></td>
                         <td><?= $data['updatedAt'] ?></td>
                         <td>
-                        <a class="btn btn-danger btn-sm" href="javascript:void(0)" 
-                            onclick="confirmDelete(<?= $data['productId'] ?>)">
+                            <a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete(<?= $data['productId'] ?>)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                             |
@@ -87,45 +84,54 @@
 <div style="float: right;">
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            <li>
-                <a href="?p=list_items&page=<?= $page - 1 ?>" aria-label="Previous">
+            <li class="<?= ($page == 1) ? 'disabled' : '' ?>">
+                <a href="?p=list_items&page=<?= max(1, $page - 1) ?>" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <?php
-                for ($i=1; $i <= $numOfPages; $i++) { 
-                    ?>
-                    <li class="<?= ($i == $_GET['page'] ? 'active' : '') ?>"><a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a></li>
-                    <?php
-                }
-            ?>
-            <li>
-                <a href="?p=list_items&page=<?= $page + 1 ?>" aria-label="Next">
+            <?php for ($i = 1; $i <= $numOfPages; $i++) : ?>
+                <li class="<?= ($i == $page) ? 'active' : '' ?>">
+                    <a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+            <li class="<?= ($page == $numOfPages) ? 'disabled' : '' ?>">
+                <a href="?p=list_items&page=<?= min($numOfPages, $page + 1) ?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
 </div>
+
+<!-- Tambahkan script untuk konfirmasi hapus -->
 <script>
-function confirmDelete(productId) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = `page/delete_item.php?productId=${productId}`;
-            Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-            });
-        }
-    });
-}
+    function confirmDelete(productId) {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data ini akan dihapus dan tidak dapat dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, hapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke halaman penghapusan
+                window.location.href = "page/delete_item.php?productId=" + productId;
+            }
+        });
+    }
 </script>
+
+<!-- Pesan sukses atau error -->
+<?php if (isset($_GET['message'])): ?>
+    <?php if ($_GET['message'] == 'deleted'): ?>
+        <script>
+            Swal.fire("Sukses!", "Data berhasil dihapus.", "success");
+        </script>
+    <?php elseif ($_GET['message'] == 'error'): ?>
+        <script>
+            Swal.fire("Error!", "Gagal menghapus data.", "error");
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

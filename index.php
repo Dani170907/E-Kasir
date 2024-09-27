@@ -31,6 +31,8 @@ if (isset($_SESSION['username'])) {
   <link href="dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="dist/css/navbar-fixed-top.css" rel="stylesheet">
 
+  <script src="assets/js/sweetalert2.all.min.js"></script>
+
   <!-- Debugging Scripts -->
   <script src="assets/js/ie-emulation-modes-warning.js"></script>
 

@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/sweetalert2.all.min.js"></script>
 <div class="row">
 <h2>Tambah Barang</h2>
     <div class="col-lg-4">
@@ -46,7 +46,14 @@
 
                 if ($query) : ?>
                     <script>
-                        Swal.fire("Barang Berhasil Ditambahkan");
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Barang Berhasil Ditambahkan",
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        }).then(() => {
+                            window.location.href = "?p=list_item";
+                        });
                     </script>
                 <?php else : ?>
                     <div class="alert alert-danger mt-3">

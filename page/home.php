@@ -13,9 +13,9 @@ function getTime() {
     
     if ($timeNow < 5) {
         return "Malam";
-    } elseif ($timeNow >= 5 && $timeNow < 12) {
+    } elseif ($timeNow >= 5 && $timeNow < 9) {
         return "Pagi";
-    } elseif ($timeNow >= 12 && $timeNow < 15) {
+    } elseif ($timeNow >= 9 && $timeNow < 15) {
         return "Siang";
     } elseif ($timeNow >= 15 && $timeNow < 18 ) {
         return "Sore";
