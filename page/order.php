@@ -90,26 +90,30 @@ echo $customerCode;
                 </form>
 
                 <?php if (isset($_POST['save'])) : ?>
-                    <?php 
-                        // Mendapatkan data dari form
-                        $customerId = $_POST['customerId'];
-                        $customerName = $_POST['customerName'];
-                        $gender = $_POST['gender'];
-                        $phoneNumber = $_POST['phoneNumber'];
-                        $address = $_POST['address'];
-                        $productId = $_POST['productId'];
-                        $quantity = $_POST['quantity'];
+                <?php 
+                    // Mendapatkan data dari form dengan validasi isset untuk mencegah error
+                    $customerId = isset($_POST['customerId']) ? $_POST['customerId'] : '';
+                    $customerName = isset($_POST['customerName']) ? $_POST['customerName'] : '';
+                    $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
+                    $phoneNumber = isset($_POST['phoneNumber']) ? $_POST['phoneNumber'] : '';
+                    $address = isset($_POST['address']) ? $_POST['address'] : '';
+                    $productId = isset($_POST['productId']) ? $_POST['productId'] : '';
+                    $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
 
+                    // Validasi apakah semua field penting sudah diisi
+                    if (empty($customerName) || empty($gender) || empty($phoneNumber) || empty($address) || empty($productId) || empty($quantity)) {
+                        echo '<div class="alert alert-danger">Semua field harus diisi!</div>';
+                    } else {
                         // Insert data ke tabel customers
                         $sqlCustomers = "INSERT INTO customers (customerId, customerName, gender, phoneNumber, address) 
-                                         VALUES ('$customerId', '$customerName', '$gender', '$phoneNumber', '$address')";
+                                        VALUES ('$customerId', '$customerName', '$gender', '$phoneNumber', '$address')";
                         $queryInput = mysqli_query($connection, $sqlCustomers);
 
                         if ($queryInput) {
                             // Insert data ke tabel orders
                             $userId = 1; // Misalnya userId dari session user login
                             $sqlOrder = "INSERT INTO orders (productId, customerId, quantity, userId, status) 
-                                         VALUES ('$productId', '$customerId', '$quantity', '$userId', '0')";
+                                        VALUES ('$productId', '$customerId', '$quantity', '$userId', '0')";
                             $queryOrder = mysqli_query($connection, $sqlOrder);
 
                             if ($queryOrder) {
@@ -125,8 +129,10 @@ echo $customerCode;
                         } else {
                             echo '<div class="alert alert-danger">Gagal Menyimpan Pelanggan</div>';
                         }
-                    ?>
-                <?php endif; ?>
+                    }
+                ?>
+            <?php endif; ?>
+
             </div>
         </div>
     </div>
