@@ -1,13 +1,13 @@
 <script src="../assets/js/sweetalert2.all.min.js"></script>
 <div class="row">
-<h2>Tambah Barang</h2>
+    <h2>Tambah Barang</h2>
     <div class="col-lg-4">
         <form action="" method="post" class="form">
             <div class="form-group">
                 <label for="">Nama Barang</label>
                 <input type="text" name="productName" class="form-control" placeholder="Masukkan Nama Barang" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="category">Kategori</label>
                 <select name="category" id="category" class="form-control" required>
@@ -45,21 +45,21 @@
                 $query = mysqli_query($connection, $sql);
 
                 if ($query) : ?>
-                    <script>
-                        Swal.fire({
-                            title: "Berhasil!",
-                            text: "Barang Berhasil Ditambahkan",
-                            icon: "success",
-                            confirmButtonText: "OK"
-                        }).then(() => {
-                            window.location.href = "?p=list_item";
-                        });
-                    </script>
-                <?php else : ?>
-                    <div class="alert alert-danger mt-3">
-                        Gagal menambahkan barang, silakan coba lagi.
-                    </div>
-                <?php endif; ?>
+            <script>
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Barang Berhasil Ditambahkan",
+                icon: "success",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "?p=list_item";
+            });
+            </script>
+            <?php else : ?>
+            <div class="alert alert-danger mt-3">
+                Gagal menambahkan barang, silakan coba lagi.
+            </div>
+            <?php endif; ?>
             <?php endif; ?>
         </form>
     </div>

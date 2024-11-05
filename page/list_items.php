@@ -28,51 +28,51 @@
     </thead>
     <tbody>
         <?php
-            @$search = $_GET['search'];
-            $searchQuery = "";
-            if (!empty($search)) {
-                $searchQuery .= " AND productName LIKE '%" . $search . "%'";
-            }
+        @$search = $_GET['search'];
+        $searchQuery = "";
+        if (!empty($search)) {
+            $searchQuery .= " AND productName LIKE '%" . $search . "%'";
+        }
 
-            $pagination = 5;
-            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $pagination = 5;
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
-            $start = $page > 1 ? $page * $pagination - $pagination : 0;
+        $start = $page > 1 ? $page * $pagination - $pagination : 0;
 
-            $sql = "SELECT * FROM products WHERE 1=1 $searchQuery LIMIT $start,$pagination";
-            $query = mysqli_query($connection, $sql);
-            $check = mysqli_num_rows($query);
-            // Cari total
-            $sqlTotal =  "SELECT * FROM products";
-            $queryTotal = mysqli_query($connection, $sqlTotal);
-            $total = mysqli_num_rows($queryTotal);
-            $numOfPages = ceil($total / $pagination);
+        $sql = "SELECT * FROM products WHERE 1=1 $searchQuery LIMIT $start,$pagination";
+        $query = mysqli_query($connection, $sql);
+        $check = mysqli_num_rows($query);
+        // Cari total
+        $sqlTotal =  "SELECT * FROM products";
+        $queryTotal = mysqli_query($connection, $sqlTotal);
+        $total = mysqli_num_rows($queryTotal);
+        $numOfPages = ceil($total / $pagination);
 
-            $no = $start + 1;
-            if ($check > 0) :
-                while ($data = mysqli_fetch_array($query)) : ?>
-                    <tr>
-                        <td><?= $no++ ?></td>
-                        <td><?= $data['productName'] ?></td>
-                        <td><?= $data['category'] ?></td>
-                        <td><?= "Rp " . number_format($data['price'], 2, ',', '.'); ?></td>
-                        <td><?= $data['createdAt'] ?></td>
-                        <td><?= $data['updatedAt'] ?></td>
-                        <td>
-                            <a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete(<?= $data['productId'] ?>)">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                            |
-                            <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>">
-                                <span class="glyphicon glyphicon-edit"></span>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+        $no = $start + 1;
+        if ($check > 0) :
+            while ($data = mysqli_fetch_array($query)) : ?>
+        <tr>
+            <td><?= $no++ ?></td>
+            <td><?= $data['productName'] ?></td>
+            <td><?= $data['category'] ?></td>
+            <td><?= "Rp " . number_format($data['price'], 2, ',', '.'); ?></td>
+            <td><?= $data['createdAt'] ?></td>
+            <td><?= $data['updatedAt'] ?></td>
+            <td>
+                <a class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>" onclick="">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+                |
+                <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+            </td>
+        </tr>
+        <?php endwhile; ?>
         <?php else : ?>
-            <tr>
-                <td colspan="7">Tidak ada data!</td>
-            </tr>
+        <tr>
+            <td colspan="7">Tidak ada data!</td>
+        </tr>
         <?php endif; ?>
     </tbody>
 </table>
@@ -90,9 +90,9 @@
                 </a>
             </li>
             <?php for ($i = 1; $i <= $numOfPages; $i++) : ?>
-                <li class="<?= ($i == $page) ? 'active' : '' ?>">
-                    <a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a>
-                </li>
+            <li class="<?= ($i == $page) ? 'active' : '' ?>">
+                <a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a>
+            </li>
             <?php endfor; ?>
             <li class="<?= ($page == $numOfPages) ? 'disabled' : '' ?>">
                 <a href="?p=list_items&page=<?= min($numOfPages, $page + 1) ?>" aria-label="Next">
@@ -104,34 +104,34 @@
 </div>
 
 <!-- Tambahkan script untuk konfirmasi hapus -->
-<script>
-    function confirmDelete(productId) {
-        Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Data ini akan dihapus dan tidak dapat dikembalikan!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, hapus!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect ke halaman penghapusan
-                window.location.href = "page/delete_item.php?productId=" + productId;
-            }
-        });
-    }
-</script>
+<!-- <script>
+function confirmDelete(productId) {
+    console.log("Product ID:", productId); // Untuk mengecek ID yang dikirim
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Data ini akan dihapus dan tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "page/delete_item.php?productId=" + productId;
+        }
+    });
+}
+</script> -->
 
 <!-- Pesan sukses atau error -->
 <?php if (isset($_GET['message'])): ?>
-    <?php if ($_GET['message'] == 'deleted'): ?>
-        <script>
-            Swal.fire("Sukses!", "Data berhasil dihapus.", "success");
-        </script>
-    <?php elseif ($_GET['message'] == 'error'): ?>
-        <script>
-            Swal.fire("Error!", "Gagal menghapus data.", "error");
-        </script>
-    <?php endif; ?>
+<?php if ($_GET['message'] == 'deleted'): ?>
+<script>
+Swal.fire("Sukses!", "Data berhasil dihapus.", "success");
+</script>
+<?php elseif ($_GET['message'] == 'error'): ?>
+<script>
+Swal.fire("Error!", "Gagal menghapus data.", "error");
+</script>
+<?php endif; ?>
 <?php endif; ?>
