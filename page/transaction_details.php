@@ -42,7 +42,9 @@ $data = mysqli_fetch_array($queryList);
     <div class="panel panel-default">
         <div class="panel-heading">Input Pembayaran</div>
         <div class="panel-body">
-            <form action="">
+            <div class="row">
+            <form action="" method="post">
+                <input type="hidden" name="transactionCode" value="<?= $transactionCode ?>">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Nama Pelanggan</label>
@@ -64,23 +66,65 @@ $data = mysqli_fetch_array($queryList);
                     </div>
                     <div class="form-group">
                         <label for="">Total Bayar</label>
-                        <input type="number" name="" class="form-control" value="<?= $data['quantity'] * $data['price'] ?>" readonly>
+                        <input type="number" name="total" class="form-control" value="<?= $data['quantity'] * $data['price'] ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="">Uang Pelanggan</label>
-                        <input type="number" name="" class="form-control">
+                        <input type="number" <?= ($data['status'] == '2' ? 'readonly' : '') ?> name="payment" class="form-control">
                     </div>
-                    <button type="submit" name="save" class="btn btn-sm btn-primary">Simpan</button>
+                    <button type="submit" <?= ($data['status'] == '2' ? 'disabled="disabled"' : '') ?> name="save" class="btn btn-sm btn-primary">Simpan</button>
                 </div>
             </form>
+            </div>
             <br>
+
+            <div class="row">
             <?php 
             // echo $transactionCode;
-
+            
             if (isset($_POST['save'])) {
+                $total = $_POST['total'];
+                $payment = $_POST['payment'];
+                $code = $_POST['transactionCode'];
                 
+                if ($payment < $total) {
+                    ?>
+                        <div class="alert alert-danger">
+                            Nominal uang kurang
+                        </div>
+                        <?php
+                } else {
+                    $cashback = $payment - $total;
+
+                    $sqlInsert = "INSERT INTO transactions SET transactionId = '$code',
+                                  orderId = '$orderId', total = '$total', payment = '$payment', cashback = '$cashback'";
+                                  
+                    $queryInsert = mysqli_query($connection, $sqlInsert);
+
+                    if ($queryInsert) {
+                        $sqlUpdate = "UPDATE orders SET status = '2' WHERE orderId = '$orderId'";
+                        $queryUpdate = mysqli_query($connection, $sqlUpdate);
+
+                        if ($queryUpdate) {
+                            ?>
+                            <p>Uang kembalian: <?=$cashback ?></p>
+                            <span>
+                                <a href="page/receipt.php?transactionId=<?= $code ?>">
+                                     Cetak Struk
+                                     <span class="glyphicon glyphicon-print"></span>
+                                     </a>
+                                </a>
+                            </span>
+                            <?php
+                        } else {
+                            echo "Gagal menyimpan transaksi";
+                        }
+                    }
+                }
             }
             ?>
+            <a href="?p=transactions" class="btn btn-default">Kembali</a>
+            </div>
         </div>
     </div>
 </div>
