@@ -3,7 +3,7 @@ $sqlCode = "SELECT max(transactionId) as maxKode FROM transactions";
 $queryCode = mysqli_query($connection, $sqlCode);
 
 $data = mysqli_fetch_array($queryCode);
-$transactionId = isset($dataCode['maxKode']) ? $data['maxKode'] : null;
+$transactionId = isset($data['maxKode']) ? $data['maxKode'] : null;
 
 if ($transactionId) {
     $serialNumber = (int) substr($transactionId, 3, 3);
@@ -107,14 +107,17 @@ $data = mysqli_fetch_array($queryList);
 
                         if ($queryUpdate) {
                             ?>
-                            <p>Uang kembalian: <?=$cashback ?></p>
-                            <span>
+                            <div class="col-lg-12">
+                            <span style="float: right;">
                                 <a href="page/receipt.php?transactionId=<?= $code ?>">
                                      Cetak Struk
                                      <span class="glyphicon glyphicon-print"></span>
                                      </a>
                                 </a>
                             </span>
+                            <p>Uang kembalian: <?=$cashback ?></p>
+                            </div>
+
                             <?php
                         } else {
                             echo "Gagal menyimpan transaksi";
