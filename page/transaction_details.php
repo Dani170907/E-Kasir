@@ -1,4 +1,21 @@
 <?php
+$sqlCode = "SELECT max(transactionId) as maxKode FROM transactions";
+$queryCode = mysqli_query($connection, $sqlCode);
+
+$data = mysqli_fetch_array($queryCode);
+$transactionId = isset($dataCode['maxKode']) ? $data['maxKode'] : null;
+
+if ($transactionId) {
+    $serialNumber = (int) substr($transactionId, 3, 3);
+} else {
+    $serialNumber = 0;
+}
+
+$serialNumber++;
+
+$char = "TRX";
+$transactionCode = $char . sprintf("%03s", $serialNumber);
+
 $orderId = $_GET['orderId'];
 if (empty($orderId)) {
     ?>
@@ -53,9 +70,17 @@ $data = mysqli_fetch_array($queryList);
                         <label for="">Uang Pelanggan</label>
                         <input type="number" name="" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                    <button type="submit" name="save" class="btn btn-sm btn-primary">Simpan</button>
                 </div>
             </form>
+            <br>
+            <?php 
+            // echo $transactionCode;
+
+            if (isset($_POST['save'])) {
+                
+            }
+            ?>
         </div>
     </div>
 </div>
