@@ -25,6 +25,11 @@
             </div>
 
             <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" id="stock" class="form-control" placeholder="Masukkan Stock" required>
+            </div>
+
+            <div class="form-group">
                 <button type="submit" name="save" class="btn btn-sm-md btn-primary">Simpan</button>
                 <a href="?p=list_item" class="btn btn-md btn-default">Kembali</a>
             </div>
@@ -35,12 +40,13 @@
                 $productName = $_POST['productName'];
                 $category = $_POST['category'];
                 $price = $_POST['price'];
+                $stock = $_POST['stock'];
 
                 // Escape input data untuk menghindari SQL injection
                 $productName = mysqli_real_escape_string($connection, $productName);
                 $price = mysqli_real_escape_string($connection, $price);
 
-                $sql = "INSERT INTO products (productName, category, price) VALUES ('$productName', '$category', '$price')";
+                $sql = "INSERT INTO products (productName, category, price, stock) VALUES ('$productName', '$category', '$price', '$stock')";
 
                 $query = mysqli_query($connection, $sql);
 
