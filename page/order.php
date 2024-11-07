@@ -185,7 +185,14 @@ echo $customerCode;
                                             ?>
                                         </td>
                                         <td>
-                                            <a onclick="return confirm('Yakin?')" href="page/mark.php?orderId=<?= $dataList['orderId'] ?>" class="btn btn-sm btn-primary">Tandai</a>
+                                            <?php 
+                                            if ($dataList['status'] == '0') {
+                                                ?>
+                                                    <a onclick="return confirm('Yakin?')" href="page/mark.php?orderId=<?= $dataList['orderId'] ?>" 
+                                                    class="btn btn-sm btn-primary">Tandai</a>
+                                                <?php
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
                                 <?php
