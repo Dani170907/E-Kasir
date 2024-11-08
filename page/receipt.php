@@ -7,7 +7,7 @@ $sql = "SELECT * FROM transactions LEFT JOIN orders
         ON orders.orderId = transactions.orderId
         LEFT JOIN customers ON orders.customerId = customers.customerId
         LEFT JOIN products ON orders.productId = products.productId
-        WHERE transactionId = '$transactionId";
+        WHERE transactionId = '$transactionId'";
 
 $query = mysqli_query($connection,$sql);
 $check = mysqli_num_rows($query);
@@ -57,10 +57,20 @@ if($check > 0) {
                 <td colspan="4">Nama: <?= $data['customerName'] ?></td>
             </tr>
             <tr>
-                <td class="bb"><?= $data['productName'] ?></td>
-                <td class="bb"><?= $data['price'] ?></td>
-                <td class="bb"><?= $data['quantity'] ?></td>
-                <td class="bb"><?= $data['total'] ?></td>
+                <td colspan="3">Produk</td>
+                <td><?= $data['productName']?></td>
+            </tr>
+            <tr>
+                <td colspan="3">Harga</td>
+                <td><?= $data['price']?></td>
+            </tr>
+            <tr>
+                <td colspan="3">Jumlah</td>
+                <td><?= $data['quantity']?></td>
+            </tr>
+            <tr>
+                <td class="bb" colspan="3">Total</td>
+                <td class="bb" ><?= $data['total']?></td>
             </tr>
             <tr>
                 <td colspan="3">Uang bayar</td>
@@ -72,7 +82,7 @@ if($check > 0) {
             </tr>
             <tr>
                 <td colspan="4" style="text-align:center ;">
-                    Terima kasih atas kunjungan anda, silahkan tunggu sebentar.
+                    Terima kasih <?= $data['customerName'] ?> atas kunjungan anda!
                     <br/>
                     <br/>
                     <br/>
@@ -85,7 +95,7 @@ if($check > 0) {
 <script type="text/javascript">
     window.print();
     setTimeout(function(){
-        window.location.href = "index.php?p=transactions";
+        window.location.href = "../index.php?p=transactions";
     }, 2000); 
 </script>
 

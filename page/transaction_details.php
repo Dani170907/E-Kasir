@@ -81,7 +81,7 @@ $data = mysqli_fetch_array($queryList);
             <div class="row">
             <?php 
             // echo $transactionCode;
-            
+            ?><a href="?p=transactions">test</a><?php
             if (isset($_POST['save'])) {
                 $total = $_POST['total'];
                 $payment = $_POST['payment'];
@@ -109,7 +109,8 @@ $data = mysqli_fetch_array($queryList);
                             ?>
                             <div class="col-lg-12">
                             <span style="float: right;">
-                                <a href="page/receipt.php?transactionId=<?= $code ?>">
+                                <a target="_blank"></a>
+                                <a href="page/print_receipt.php?transactionId=<?= $code ?>">
                                      Cetak Struk
                                      <span class="glyphicon glyphicon-print"></span>
                                      </a>

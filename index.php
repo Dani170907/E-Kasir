@@ -119,6 +119,9 @@ if (isset($_SESSION['username'])) {
       case 'reports':
         include "page/reports.php";
         break;
+      case 'receipt':
+        include "page/receipt.php";
+        break;
       case 'home':
         include "page/home.php";
         break;
