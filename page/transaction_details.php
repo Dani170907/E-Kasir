@@ -109,8 +109,7 @@ $data = mysqli_fetch_array($queryList);
                             ?>
                             <div class="col-lg-12">
                             <span style="float: right;">
-                                <a target="_blank"></a>
-                                <a href="page/print_receipt.php?transactionId=<?= $code ?>">
+                                <a target="_blank" href="page/print_receipt.php?transactionId=<?= $code ?>">
                                      Cetak Struk
                                      <span class="glyphicon glyphicon-print"></span>
                                      </a>

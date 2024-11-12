@@ -156,10 +156,12 @@ echo $customerCode;
                     </thead>
                     <tbody>
                         <?php
+                        $today = date('Y-m-d');
                         $listOrder = "SELECT orders.orderId, customers.customerName, products.productName, orders.quantity, orders.status 
                                       FROM orders 
                                       LEFT JOIN customers ON customers.customerId = orders.customerId
-                                      LEFT JOIN products ON products.productId = orders.productId";
+                                      LEFT JOIN products ON products.productId = orders.productId
+                                      WHERE date(orderDate) = '$today'";
 
                         $queryList = mysqli_query($connection, $listOrder);
 
