@@ -142,3 +142,11 @@ if (isset($_SESSION['username'])) {
 
 </body>
 </html>
+<script type="text/JavaScript">
+  $(document).on('click', '#print', function(e) {
+    e.preventDefault(); // Mencegah submit form
+    var start_date = $('#start_date').val();
+    var end_date = $('#end_date').val();
+    window.open('page/print_report.php?start_date=' + start_date + '&end_date=' + end_date, '_blank');
+  });
+</script>

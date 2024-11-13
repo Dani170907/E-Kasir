@@ -7,21 +7,22 @@ $today = date("Y-m-d");
     <div class="panel panel-default">
         <div class="panel-heading">Data Transaksi</div>
         <div class="panel-body">
+
             <form action="" method="get" class="form-inline">
                 <input type="hidden" name="p" value="reports">
                 <div class="form-group">
                     <label for="">Tanggal Awal</label><br>
-                    <input type="date" name="dateFrom" class="form-control"
+                    <input id="start_date" type="date" name="dateFrom" class="form-control"
                         value="<?= !empty($_GET['dateFrom']) ? $_GET['dateFrom'] : $today ?>">
                 </div>
                 <div class="form-group">
                     <label for="">Tanggal Sampai</label><br>
-                    <input type="date" name="dateTo" class="form-control"
+                    <input type="date" id="end_date" name="dateTo" class="form-control"
                         value="<?= !empty($_GET['dateTo']) ? $_GET['dateTo'] : $today ?>">
                 </div>
                 <div class="form-group">
                     <input type="submit" name="search" class="btn btn-sm btn-primary" value="Filter">
-                    <a href="" class="btn btn-sm btn-success">Cetak</a>
+                    <button type="submit" id="print" class="btn btn-sm btn-success">Cetak</button>
                 </div>
             </form>
 
@@ -64,7 +65,7 @@ $today = date("Y-m-d");
                     if ($check > 0) {
                         $no = 1;
                         while ($data = mysqli_fetch_array($query)) {
-                            ?>
+                    ?>
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td><?= $data['customerName'] ?></td>
@@ -73,14 +74,14 @@ $today = date("Y-m-d");
                                 <td><?= $data['tgl'] ?></td>
                                 <td><?= $data['total'] ?></td>
                             </tr>
-                            <?php
+                        <?php
                         }
                     } else {
                         ?>
-                            <tr>
-                                <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
-                            </tr>
-                        <?php
+                        <tr>
+                            <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
+                        </tr>
+                    <?php
                     }
                     ?>
                 </tbody>
@@ -94,14 +95,18 @@ $today = date("Y-m-d");
         <div class="panel-heading">Total hari ini</div>
         <div class="panel-body">
             <h2>
-                <?php 
-                    $income = "SELECT SUM(total) as amount FROM transactions 
-                    WHERE date(transactionDate) = '" . $today . "'";
+                <?php
+                // Total hari ini
+                $income = "SELECT SUM(total) as amount FROM transactions 
+                   WHERE date(transactionDate) = '" . $today . "'";
 
-                    $queryIncome = mysqli_query($connection, $income);
-                    $dataIncome = mysqli_fetch_array($queryIncome);
+                $queryIncome = mysqli_query($connection, $income);
+                $dataIncome = mysqli_fetch_array($queryIncome);
 
-                    echo "Rp. ". number_format($dataIncome['amount'], 2, ',', '.');
+                // Jika nilai NULL, ganti dengan 0
+                $totalIncome = $dataIncome['amount'] ?? 0;
+
+                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
                 ?>
             </h2>
         </div>
@@ -111,17 +116,21 @@ $today = date("Y-m-d");
         <div class="panel-heading">Total 28 hari terakhir</div>
         <div class="panel-body">
             <h2>
-            <?php 
+                <?php
+                // Total 28 hari terakhir
                 $incomeFrom = date('Y-m-d', strtotime('-28 days'));
 
                 $income = "SELECT SUM(total) as amount FROM transactions
-                           WHERE date(transactionDate) BETWEEN '$incomeFrom' AND '$today'";
+                   WHERE date(transactionDate) BETWEEN '$incomeFrom' AND '$today'";
 
                 $queryIncome = mysqli_query($connection, $income);
                 $dataIncome = mysqli_fetch_array($queryIncome);
-                
-                echo "Rp. " . number_format($dataIncome['amount'], 2, ',', '.');                
-            ?>
+
+                // Jika nilai NULL, ganti dengan 0
+                $totalIncome = $dataIncome['amount'] ?? 0;
+
+                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
+                ?>
             </h2>
         </div>
     </div>
@@ -130,12 +139,16 @@ $today = date("Y-m-d");
         <div class="panel-heading">Selama ini</div>
         <div class="panel-body">
             <h2>
-                <?php 
-                    $income = "SELECT SUM(total) as amount FROM transactions";
-                    $queryIncome = mysqli_query($connection, $income);
-                    $dataIncome = mysqli_fetch_array($queryIncome);
+                <?php
+                // Selama ini
+                $income = "SELECT SUM(total) as amount FROM transactions";
+                $queryIncome = mysqli_query($connection, $income);
+                $dataIncome = mysqli_fetch_array($queryIncome);
 
-                    echo "Rp. ". number_format($dataIncome['amount'], 2, ',', '.');
+                // Jika nilai NULL, ganti dengan 0
+                $totalIncome = $dataIncome['amount'] ?? 0;
+
+                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
                 ?>
             </h2>
         </div>
