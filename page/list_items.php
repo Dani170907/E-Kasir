@@ -55,13 +55,13 @@
             <td><?= $no++ ?></td>
             <td><?= $data['productName'] ?></td>
             <td><?= $data['category'] ?></td>
-            <td><?= "Rp " . number_format($data['price'], 2, ',', '.'); ?></td>
+            <td><?= "Rp " . number_format($data['price'], 0, ',', '.'); ?></td>
             <td><?= $data['createdAt'] ?></td>
             <td><?= $data['updatedAt'] ?></td>
             <td>
-                <a class="btn btn-danger btn-sm" href="page/delete_item.php?productId=<?= $data['productId'] ?>" onclick="">
+                <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $data['productId'] ?>)">
                     <span class="glyphicon glyphicon-trash"></span>
-                </a>
+                </button>
                 |
                 <a class="btn btn-info btn-sm" href="?p=edit_item&productId=<?= $data['productId'] ?>">
                     <span class="glyphicon glyphicon-edit"></span>
@@ -103,35 +103,22 @@
     </nav>
 </div>
 
-<!-- Tambahkan script untuk konfirmasi hapus -->
-<!-- <script>
-function confirmDelete(productId) {
-    console.log("Product ID:", productId); // Untuk mengecek ID yang dikirim
-    Swal.fire({
-        title: "Apakah Anda yakin?",
-        text: "Data ini akan dihapus dan tidak dapat dikembalikan!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, hapus!",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = "page/delete_item.php?productId=" + productId;
-        }
-    });
-}
-</script> -->
-
-<!-- Pesan sukses atau error -->
-<?php if (isset($_GET['message'])): ?>
-<?php if ($_GET['message'] == 'deleted'): ?>
 <script>
-Swal.fire("Sukses!", "Data berhasil dihapus.", "success");
+    function confirmDelete(productId) {
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: "Data tidak bisa dikembalikan setelah dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke halaman delete dengan parameter productId
+                window.location.href = `page/delete_item.php?productId=${productId}`;
+            }
+        });
+    }
 </script>
-<?php elseif ($_GET['message'] == 'error'): ?>
-<script>
-Swal.fire("Error!", "Gagal menghapus data.", "error");
-</script>
-<?php endif; ?>
-<?php endif; ?>

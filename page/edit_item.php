@@ -39,43 +39,58 @@
                 </select>
             </div>
 
-            
             <div class="form-group">
                 <label for="">Harga</label>
-                <input type="number" name="price" value="<?= $data['price'] ?>" id="" class="form-control">
+                <input type="text" name="price" value="<?= number_format($data['price'], 0, ',', '.') ?>" id="price" class="form-control" oninput="formatRupiah(this)">
             </div>
+
 
             <div class="form-group">
                 <button type="submit" name="save" class="btn btn-md btn-primary">Simpan</button>
-                <a href="?p=list_item" class="btn btn-md btn-default">Kembali</a>
+                <a href="?p=list_items" class="btn btn-md btn-default">Kembali</a>
             </div>
         </form>
 
         <?php
             if (isset($_POST['save'])) :
                 $productName = $_POST['productName'];
-                $price = $_POST['price'];
+                $price = str_replace('.', '', $_POST['price']);
+                $price = str_replace(',', '', $price);
                 
                 // Cek apakah kategori ada di POST
                 if (isset($_POST['category']) && !empty($_POST['category'])) {
                     $category = $_POST['category'];
                 } else {
                     $category = $data['category']; // Jika kategori tidak dipilih, gunakan kategori lama
-            }
+                }
 
-            // query update
-            $sqlUpdate = "UPDATE products SET productName = '$productName', category = '$category', price = '$price' WHERE productId = '$productId'";
+                // Query update
+                $sqlUpdate = "UPDATE products SET productName = '$productName', category = '$category', price = '$price' WHERE productId = '$productId'";
+                $queryUpdate = mysqli_query($connection, $sqlUpdate);
 
-            $queryUpdate = mysqli_query($connection, $sqlUpdate);
-            if ($queryUpdate) : ?>
-                <script type="text/javascript">
-                    window.location.href="?p=list_items";
-                </script>
-            <?php else : ?>
-                <div class="alert alert-danger">
-                    Gagal menyimpan!
-                </div>    
-        <?php endif; ?>
-        <?php endif; ?>
+                if ($queryUpdate) : ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Item berhasil diperbarui.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "?p=list_items";
+                            }
+                        });
+                    </script>
+                <?php else : ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat memperbarui item.',
+                            icon: 'error',
+                            confirmButtonText: 'Coba Lagi'
+                        });
+                    </script>
+                <?php endif; ?>
+            <?php endif; ?>
     </div>
 </div>

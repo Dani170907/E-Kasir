@@ -72,7 +72,7 @@ $today = date("Y-m-d");
                                 <td><?= $data['productName'] ?></td>
                                 <td><?= $data['quantity'] ?></td>
                                 <td><?= $data['tgl'] ?></td>
-                                <td><?= $data['total'] ?></td>
+                                <td><?= "Rp. " . number_format($data['total'], 0, ',', '.'); ?></td>
                             </tr>
                         <?php
                         }
@@ -106,7 +106,7 @@ $today = date("Y-m-d");
                 // Jika nilai NULL, ganti dengan 0
                 $totalIncome = $dataIncome['amount'] ?? 0;
 
-                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
+                echo "Rp. " . number_format($totalIncome, 0, ',', '.');
                 ?>
             </h2>
         </div>
@@ -129,7 +129,7 @@ $today = date("Y-m-d");
                 // Jika nilai NULL, ganti dengan 0
                 $totalIncome = $dataIncome['amount'] ?? 0;
 
-                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
+                echo "Rp. " . number_format($totalIncome, 0, ',', '.');
                 ?>
             </h2>
         </div>
@@ -148,7 +148,7 @@ $today = date("Y-m-d");
                 // Jika nilai NULL, ganti dengan 0
                 $totalIncome = $dataIncome['amount'] ?? 0;
 
-                echo "Rp. " . number_format($totalIncome, 2, ',', '.');
+                echo "Rp. " . number_format($totalIncome, 0, ',', '.');
                 ?>
             </h2>
         </div>

@@ -110,25 +110,49 @@ echo $customerCode;
                         $queryInput = mysqli_query($connection, $sqlCustomers);
 
                         if ($queryInput) {
-                            // Insert data ke tabel orders
-                            $userId = 1; // Misalnya userId dari session user login
                             $sqlOrder = "INSERT INTO orders (productId, customerId, quantity, userId, status) 
-                                        VALUES ('$productId', '$customerId', '$quantity', '$userId', '0')";
+                                         VALUES ('$productId', '$customerId', '$quantity', '$userId', '0')";
                             $queryOrder = mysqli_query($connection, $sqlOrder);
-
+                        
                             if ($queryOrder) {
                                 ?>
                                 <script>
-                                    alert('Berhasil Menyimpan Pesanan');
-                                    window.location.href = "?p=order";  // Refresh halaman setelah alert tampil
+                                    Swal.fire({
+                                        title: 'Berhasil!',
+                                        text: 'Pesanan berhasil disimpan.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = "?p=order";
+                                        }
+                                    });
                                 </script>
                                 <?php
                             } else {
-                                echo '<div class="alert alert-danger">Gagal Menyimpan Pesanan</div>';
+                                ?>
+                                <script>
+                                    Swal.fire({
+                                        title: 'Gagal!',
+                                        text: 'Pesanan gagal disimpan.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Coba Lagi'
+                                    });
+                                </script>
+                                <?php
                             }
                         } else {
-                            echo '<div class="alert alert-danger">Gagal Menyimpan Pelanggan</div>';
-                        }
+                            ?>
+                            <script>
+                                Swal.fire({
+                                    title: 'Gagal!',
+                                    text: 'Pelanggan gagal disimpan.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Coba Lagi'
+                                });
+                            </script>
+                            <?php
+                        }                        
                     }
                 ?>
             <?php endif; ?>

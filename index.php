@@ -140,13 +140,30 @@ if (isset($_SESSION['username'])) {
 <script src="dist/js/bootstrap.min.js"></script>
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
 
-</body>
+    <script type="text/JavaScript">
+      $(document).on('click', '#print', function(e) {
+        e.preventDefault(); // Mencegah submit form
+        var start_date = $('#start_date').val();
+        var end_date = $('#end_date').val();
+        window.open('page/print_report.php?start_date=' + start_date + '&end_date=' + end_date, '_blank');
+      });
+    </script>
+
+    <!-- format Rupiah -->
+    <script>
+        function formatRupiah(element) {
+          // Ambil nilai input
+          let value = element.value.replace(/[^,\d]/g, '');
+          let formattedValue = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(value);
+          
+          // Hapus "Rp" dari hasil format
+          formattedValue = formattedValue.replace(/^Rp\s/, '');
+          element.value = formattedValue;
+        }
+    </script>
+  </body>
 </html>
-<script type="text/JavaScript">
-  $(document).on('click', '#print', function(e) {
-    e.preventDefault(); // Mencegah submit form
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-    window.open('page/print_report.php?start_date=' + start_date + '&end_date=' + end_date, '_blank');
-  });
-</script>

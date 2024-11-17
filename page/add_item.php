@@ -1,4 +1,3 @@
-<script src="../assets/js/sweetalert2.all.min.js"></script>
 <div class="row">
     <h2>Tambah Barang</h2>
     <div class="col-lg-4">
@@ -21,7 +20,7 @@
 
             <div class="form-group">
                 <label for="price">Harga</label>
-                <input type="number" name="price" id="price" class="form-control" placeholder="Masukkan Harga" required>
+                <input type="text" name="price" id="price" class="form-control" placeholder="Masukkan Harga" required oninput="formatRupiah(this)">
             </div>
 
             <div class="form-group">
@@ -33,40 +32,53 @@
                 <button type="submit" name="save" class="btn btn-sm-md btn-primary">Simpan</button>
                 <a href="?p=list_item" class="btn btn-md btn-default">Kembali</a>
             </div>
-
-            <!-- Alert ditampilkan di bawah tombol jika berhasil atau gagal -->
-            <?php
-            if (isset($_POST['save'])) :
-                $productName = $_POST['productName'];
-                $category = $_POST['category'];
-                $price = $_POST['price'];
-                $stock = $_POST['stock'];
-
-                // Escape input data untuk menghindari SQL injection
-                $productName = mysqli_real_escape_string($connection, $productName);
-                $price = mysqli_real_escape_string($connection, $price);
-
-                $sql = "INSERT INTO products (productName, category, price, stock) VALUES ('$productName', '$category', '$price', '$stock')";
-
-                $query = mysqli_query($connection, $sql);
-
-                if ($query) : ?>
-            <script>
-            Swal.fire({
-                title: "Berhasil!",
-                text: "Barang Berhasil Ditambahkan",
-                icon: "success",
-                confirmButtonText: "OK"
-            }).then(() => {
-                window.location.href = "?p=list_item";
-            });
-            </script>
-            <?php else : ?>
-            <div class="alert alert-danger mt-3">
-                Gagal menambahkan barang, silakan coba lagi.
-            </div>
-            <?php endif; ?>
-            <?php endif; ?>
         </form>
     </div>
 </div>
+
+<?php
+if (isset($_POST['save'])) {
+    $productName = $_POST['productName'];
+    $category = $_POST['category'];
+    $price = $_POST['price'];
+    $stock = $_POST['stock'];
+
+    // Menghapus simbol 'Rp', titik (pempisah ribuan) dan koma (pemisan desimal)
+    $price = str_replace(['Rp', '.', ','], '', $price);
+
+    // Escape input data untuk menghindari SQL injection
+    $productName = mysqli_real_escape_string($connection, $productName);
+    $category = mysqli_real_escape_string($connection, $category);
+    $price = mysqli_real_escape_string($connection, $price);
+    $stock = mysqli_real_escape_string($connection, $stock);
+
+    // Insert data ke database
+    $sql = "INSERT INTO products (productName, category, price, stock) VALUES ('$productName', '$category', '$price', '$stock')";
+    $query = mysqli_query($connection, $sql);
+
+    if ($query) {
+        ?>
+        <script>
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Barang Berhasil Ditambahkan!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '?p=list_items';
+            });
+        </script>
+        <?php
+    } else {
+        ?>
+        <script>
+            Swal.fire({
+                title: 'Gagal!',
+                text: 'Gagal menambahkan barang, silakan coba lagi.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <?php
+    }
+}
