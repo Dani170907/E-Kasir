@@ -61,7 +61,23 @@ insert  into `customers`(`customerId`,`customerName`,`gender`,`phoneNumber`,`add
 ('PLG026','Alan','Male','088297648427649','Ciselang','2024-11-09 00:11:45'),
 ('PLG027','Adi','Male','0853532767919','Pemalang ','2024-11-09 00:17:47'),
 ('PLG028','marrisa','Female','08854367852','Soko','2024-11-10 15:01:42'),
-('PLG029','Dani','Male','084567476','ckp','2024-11-12 18:42:57');
+('PLG029','Dani','Male','084567476','ckp','2024-11-12 18:42:57'),
+('PLG030','Adi','Male','0825126161615','Bodeh','2024-11-16 22:01:49'),
+('PLG031','Dani','Male','08866456346235','CKP','2024-11-17 10:42:31'),
+('PLG032','Sidqi','Male','088345634656534','Soko','2024-11-17 10:48:14'),
+('PLG033','Reza','Male','08845672342','Comal','2024-11-17 10:52:45'),
+('PLG034','Andin','Female','0885437654453','Simbang','2024-11-17 10:59:44'),
+('PLG035','Ibnu','Male','08831245734','Brebes','2024-11-17 11:18:16'),
+('PLG036','Dimas','Male','0885432675425','Buaran','2024-11-17 11:32:26'),
+('PLG037','Dimas','Female','3214134','fdsafdas','2024-11-17 11:37:51'),
+('PLG038','Amel','Female','0885423678','Simbang','2024-11-17 11:52:20'),
+('PLG039','Andin','Male','654363545436','gbfdhbdf','2024-11-17 11:53:20'),
+('PLG040','Agim','Male','0882164346464','Cikampek ','2024-11-17 15:11:03'),
+('PLG041','Sidqi','Female','0787436857','fdsafdsa','2024-11-21 05:02:08'),
+('PLG042','fdas','Male','088293634298','Kradenan Gg. 1, Pekalongan Selatan','2024-11-21 05:02:29'),
+('PLG043','Dani','Male','088293634298','Kradenan Gg. 1, Pekalongan Selatan','2024-11-21 05:05:56'),
+('PLG044','Andin','Male','088293634298','Kradenan Gg. 1, Pekalongan Selatan','2024-11-21 05:11:04'),
+('PLG045','Dimas','Male','088293634298','Kradenan Gg. 1, Pekalongan Selatan','2024-11-21 05:14:58');
 
 /*Table structure for table `orders` */
 
@@ -76,7 +92,7 @@ CREATE TABLE `orders` (
   `status` enum('0','1','2') COLLATE utf8mb4_general_ci NOT NULL,
   `orderDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `orders` */
 
@@ -107,7 +123,23 @@ insert  into `orders`(`orderId`,`productId`,`customerId`,`quantity`,`userId`,`st
 (24,14,'PLG026',2,1,'2','2024-11-09 00:11:45'),
 (25,5,'PLG027',1,1,'2','2024-11-09 00:17:47'),
 (26,11,'PLG028',5,1,'2','2024-11-10 15:01:42'),
-(27,3,'PLG029',3,1,'2','2024-11-12 18:42:57');
+(27,3,'PLG029',3,1,'2','2024-11-12 18:42:57'),
+(28,6,'PLG030',2,1,'2','2024-11-16 22:01:49'),
+(29,5,'PLG031',3,1,'2','2024-11-17 10:42:31'),
+(30,18,'PLG032',4,1,'2','2024-11-17 10:48:14'),
+(31,7,'PLG033',6,1,'2','2024-11-17 10:52:45'),
+(32,19,'PLG034',5,1,'2','2024-11-17 10:59:44'),
+(33,2,'PLG035',4,1,'2','2024-11-17 11:18:16'),
+(34,1,'PLG036',3,1,'2','2024-11-17 11:32:26'),
+(35,3,'PLG037',2,1,'2','2024-11-17 11:37:51'),
+(36,6,'PLG038',4,1,'2','2024-11-17 11:52:20'),
+(37,2,'PLG039',4,1,'2','2024-11-17 11:53:20'),
+(38,5,'PLG040',2,1,'2','2024-11-17 15:11:03'),
+(39,5,'PLG041',4,1,'2','2024-11-21 05:02:08'),
+(40,4,'PLG042',2,1,'2','2024-11-21 05:02:29'),
+(41,34,'PLG043',4,1,'2','2024-11-21 05:05:56'),
+(42,3,'PLG044',4,1,'1','2024-11-21 05:11:04'),
+(43,5,'PLG045',5,1,'1','2024-11-21 05:14:58');
 
 /*Table structure for table `products` */
 
@@ -124,16 +156,16 @@ CREATE TABLE `products` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `products` */
 
 insert  into `products`(`productId`,`productName`,`category`,`price`,`stock`,`imageUrl`,`description`,`createdAt`,`updatedAt`) values 
 (1,'Celana Jeans Skinny','celana',150000.00,10,'images/celana1.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
-(2,'Tas Ransel Outdoor','tas',200000.00,5,'images/tas1.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
+(2,'Hydropack','tas',150000.00,5,'images/tas1.jpg',NULL,'2024-10-17 05:02:10','2024-11-17 11:16:03'),
 (3,'Hoodie Polos Hitam','hoodie',180000.00,8,'images/hoodie1.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
-(4,'Jaket Bomber Army','jaket',250000.00,6,'images/jaket1.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
-(5,'Celana Chino Slimfit','celana',140000.00,12,'images/celana2.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
+(4,'Jaket Bomber Army','jaket',199000.00,6,'images/jaket1.jpg',NULL,'2024-10-17 05:02:10','2024-11-17 11:15:32'),
+(5,'Celana Chino Slimfit','celana',120000.00,12,'images/celana2.jpg',NULL,'2024-10-17 05:02:10','2024-11-17 11:15:16'),
 (6,'Tas Selempang Kecil','tas',120000.00,15,'images/tas2.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
 (7,'Hoodie Zipper Abu','hoodie',170000.00,9,'images/hoodie2.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
 (8,'Jaket Kulit Coklat','jaket',300000.00,4,'images/jaket2.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
@@ -146,10 +178,12 @@ insert  into `products`(`productId`,`productName`,`category`,`price`,`stock`,`im
 (15,'Hoodie Crop Top Putih','hoodie',160000.00,10,'images/hoodie4.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
 (16,'Jaket Denim Classic','jaket',270000.00,3,'images/jaket4.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
 (17,'Celana Cargo Outdoor','celana',160000.00,12,'images/celana5.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
-(18,'Tas Punggung Kulit','tas',240000.00,5,'images/tas5.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
+(18,'Tas Jans Sport ','tas',210000.00,5,'images/tas5.jpg',NULL,'2024-10-17 05:02:10','2024-11-17 10:46:39'),
 (19,'Hoodie Graphic Print','hoodie',185000.00,9,'images/hoodie5.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
 (20,'Jaket Windbreaker','jaket',210000.00,14,'images/jaket5.jpg',NULL,'2024-10-17 05:02:10','2024-10-17 05:02:10'),
-(24,'Gorpcore','jaket',385000.00,5,NULL,NULL,'2024-11-08 21:38:51','2024-11-08 21:38:51');
+(33,'Hot Pans','celana',29000.00,3,NULL,NULL,'2024-11-17 12:04:53','2024-11-17 12:04:53'),
+(34,'Gorpcore','jaket',299000.00,4,NULL,NULL,'2024-11-17 12:05:40','2024-11-17 12:05:48'),
+(35,'Croptop','hoodie',20000.00,10,NULL,NULL,'2024-11-17 12:08:20','2024-11-17 12:08:34');
 
 /*Table structure for table `transactions` */
 
@@ -197,7 +231,21 @@ insert  into `transactions`(`transactionId`,`orderId`,`total`,`payment`,`cashbac
 ('TRX025',24,460000.00,500000.00,40000.00,'2024-11-09 00:16:47'),
 ('TRX026',25,140000.00,150000.00,10000.00,'2024-11-09 00:18:04'),
 ('TRX027',26,950000.00,1000000.00,50000.00,'2024-11-10 15:23:25'),
-('TRX028',27,540000.00,600000.00,60000.00,'2024-11-12 18:43:45');
+('TRX028',27,540000.00,600000.00,60000.00,'2024-11-12 18:43:45'),
+('TRX029',28,240000.00,300000.00,60000.00,'2024-11-16 22:02:09'),
+('TRX030',29,420000.00,500000.00,80000.00,'2024-11-17 10:43:04'),
+('TRX031',30,840000.00,900000.00,60000.00,'2024-11-17 10:49:26'),
+('TRX032',31,1020000.00,1500000.00,480000.00,'2024-11-17 10:53:48'),
+('TRX033',32,925000.00,1000000.00,75000.00,'2024-11-17 11:00:16'),
+('TRX034',33,600.00,600000.00,599400.00,'2024-11-17 11:31:49'),
+('TRX035',34,450.00,500000.00,499550.00,'2024-11-17 11:32:40'),
+('TRX036',35,360000.00,400000.00,40000.00,'2024-11-17 11:44:54'),
+('TRX037',36,480.00,500000.00,499520.00,'2024-11-17 11:52:34'),
+('TRX038',37,600000.00,790000.00,190000.00,'2024-11-17 11:53:45'),
+('TRX039',38,240.00,250000.00,249760.00,'2024-11-17 15:11:31'),
+('TRX040',39,480.00,505000.00,504520.00,'2024-11-21 05:15:29'),
+('TRX041',40,398000.00,400000.00,2000.00,'2024-11-21 05:38:19'),
+('TRX042',41,1196000.00,1200000.00,4000.00,'2024-11-21 05:39:03');
 
 /*Table structure for table `users` */
 

@@ -13,6 +13,10 @@ if (isset($_SESSION['username'])) {
   $userId = $_SESSION['userId'] ?? '';
 }
 
+date_default_timezone_set('Asia/Jakarta');
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

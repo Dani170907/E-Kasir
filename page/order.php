@@ -156,7 +156,6 @@ echo $customerCode;
                     }
                 ?>
             <?php endif; ?>
-
             </div>
         </div>
     </div>

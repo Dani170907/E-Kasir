@@ -79,20 +79,34 @@ $data = mysqli_fetch_array($queryList);
             <div class="row">
             <?php
             if (isset($_POST['save'])) {
-                $total = $_POST['total'];
-                $payment = str_replace('.', '', $_POST['payment']);
+                $total = (int)str_replace('.', '', $_POST['total']); // Menghapus format titik dari total
+                $payment = (int)str_replace('.', '', $_POST['payment']); // Menghapus format titik dari payment
                 $code = $_POST['transactionCode'];
-                
+
+                if (!is_numeric($total) || !is_numeric($payment)) {
+                    ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Input tidak valid.',
+                            icon: 'error',
+                            confirmButtonText: 'Coba Lagi'
+                        });
+                    </script>
+                    <?php
+                    exit;
+                }
+
                 if ($payment < $total) {
                     ?>
-                        <script>
-                            Swal.fire({
-                                title: 'Gagal!',
-                                text: 'Nominal uang kurang.',
-                                icon: 'error',
-                                confirmButtonText: 'Coba Lagi'
-                            });
-                        </script>
+                    <script>
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Nominal uang kurang.',
+                            icon: 'error',
+                            confirmButtonText: 'Coba Lagi'
+                        });
+                    </script>
                     <?php
                 } else {
                     $cashback = $payment - $total;
