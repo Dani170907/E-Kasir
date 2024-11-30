@@ -19,7 +19,7 @@
  */
 
 body {
-  position: relative; /* For scrollspy */
+  margin: 0;
 }
 
 /* Keep code small in tables on account of limited space */

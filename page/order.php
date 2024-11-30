@@ -15,7 +15,7 @@ $serialNumber++;
 
 $char = "PLG";
 $customerCode = $char . sprintf("%03s", $serialNumber);
-echo $customerCode;
+// echo $customerCode;
 ?>
 
 <div class="row">

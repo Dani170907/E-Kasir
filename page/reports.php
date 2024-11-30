@@ -10,82 +10,87 @@ $today = date("Y-m-d");
 
             <form action="" method="get" class="form-inline">
                 <input type="hidden" name="p" value="reports">
-                <div class="form-group">
-                    <label for="">Tanggal Awal</label><br>
-                    <input id="start_date" type="date" name="dateFrom" class="form-control"
-                        value="<?= !empty($_GET['dateFrom']) ? $_GET['dateFrom'] : $today ?>">
-                </div>
-                <div class="form-group">
-                    <label for="">Tanggal Sampai</label><br>
-                    <input type="date" id="end_date" name="dateTo" class="form-control"
-                        value="<?= !empty($_GET['dateTo']) ? $_GET['dateTo'] : $today ?>">
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="search" class="btn btn-sm btn-primary" value="Filter">
-                    <button type="submit" id="print" class="btn btn-sm btn-success">Cetak</button>
+                <div class="form-group-inline">
+                    <div class="form-group">
+                        <label for="">Tanggal Awal</label><br>
+                        <input id="start_date" type="date" name="dateFrom" class="form-control"
+                            value="<?= !empty($_GET['dateFrom']) ? $_GET['dateFrom'] : $today ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Sampai</label><br>
+                        <input type="date" id="end_date" name="dateTo" class="form-control"
+                            value="<?= !empty($_GET['dateTo']) ? $_GET['dateTo'] : $today ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label><br>
+                        <input type="submit" name="search" class="btn btn-sm btn-primary" value="Filter">
+                        <button type="submit" id="print" class="btn btn-sm btn-success">Cetak</button>
+                    </div>
                 </div>
             </form>
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Barang</th>
-                        <th>Jumlah</th>
-                        <th>Tanggal</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $search = '';
-                    $dateFrom = isset($_GET['dateFrom']) ? $_GET['dateFrom'] : '';
-                    $dateTo = isset($_GET['dateTo']) ? $_GET['dateTo'] : '';
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Barang</th>
+                            <th>Jumlah</th>
+                            <th>Tanggal</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $search = '';
+                        $dateFrom = isset($_GET['dateFrom']) ? $_GET['dateFrom'] : '';
+                        $dateTo = isset($_GET['dateTo']) ? $_GET['dateTo'] : '';
 
-                    if (!empty($dateFrom) && !empty($dateTo)) {
-                        $search .= " AND DATE(transactions.transactionDate) BETWEEN '$dateFrom' AND '$dateTo'";
-                    } elseif (!empty($dateFrom)) {
-                        $search .= " AND DATE(transactions.transactionDate) >= '$dateFrom'";
-                    } elseif (!empty($dateTo)) {
-                        $search .= " AND DATE(transactions.transactionDate) <= '$dateTo'";
-                    } else {
-                        $search .= " AND DATE(transactions.transactionDate) = '$today'";
-                    }
+                        if (!empty($dateFrom) && !empty($dateTo)) {
+                            $search .= " AND DATE(transactions.transactionDate) BETWEEN '$dateFrom' AND '$dateTo'";
+                        } elseif (!empty($dateFrom)) {
+                            $search .= " AND DATE(transactions.transactionDate) >= '$dateFrom'";
+                        } elseif (!empty($dateTo)) {
+                            $search .= " AND DATE(transactions.transactionDate) <= '$dateTo'";
+                        } else {
+                            $search .= " AND DATE(transactions.transactionDate) = '$today'";
+                        }
 
-                    $sql = "SELECT *, transactions.transactionDate as tgl 
-                            FROM transactions
-                            LEFT JOIN orders ON orders.orderId = transactions.orderId
-                            LEFT JOIN customers ON orders.customerId = customers.customerId
-                            LEFT JOIN products ON orders.productId = products.productId
-                            WHERE 1=1 $search";
+                        $sql = "SELECT *, transactions.transactionDate as tgl 
+                    FROM transactions
+                    LEFT JOIN orders ON orders.orderId = transactions.orderId
+                    LEFT JOIN customers ON orders.customerId = customers.customerId
+                    LEFT JOIN products ON orders.productId = products.productId
+                    WHERE 1=1 $search";
 
-                    $query = mysqli_query($connection, $sql);
-                    $check = mysqli_num_rows($query);
-                    if ($check > 0) {
-                        $no = 1;
-                        while ($data = mysqli_fetch_array($query)) {
-                    ?>
+                        $query = mysqli_query($connection, $sql);
+                        $check = mysqli_num_rows($query);
+                        if ($check > 0) {
+                            $no = 1;
+                            while ($data = mysqli_fetch_array($query)) {
+                        ?>
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $data['customerName'] ?></td>
+                                    <td><?= $data['productName'] ?></td>
+                                    <td><?= $data['quantity'] ?></td>
+                                    <td><?= $data['tgl'] ?></td>
+                                    <td><?= "Rp. " . number_format($data['total'], 0, ',', '.'); ?></td>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            ?>
                             <tr>
-                                <td><?= $no++ ?></td>
-                                <td><?= $data['customerName'] ?></td>
-                                <td><?= $data['productName'] ?></td>
-                                <td><?= $data['quantity'] ?></td>
-                                <td><?= $data['tgl'] ?></td>
-                                <td><?= "Rp. " . number_format($data['total'], 0, ',', '.'); ?></td>
+                                <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
                             </tr>
                         <?php
                         }
-                    } else {
                         ?>
-                        <tr>
-                            <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

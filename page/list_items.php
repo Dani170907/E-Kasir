@@ -1,20 +1,21 @@
 <h2>Daftar Barang</h2>
-<br>
 
-<a class="btn btn-primary btn-md" href="?p=add_item"><span class="glyphicon glyphicon-plus"></span></a>
-<br>
+<div class="header-actions">
+    <a class="btn btn-primary btn-md" href="?p=add_item">
+        <span class="glyphicon glyphicon-plus"></span>
+        Tambah
+    </a>
 
-<div style="float: right">
-    <form method="get" class="form-inline">
+    <form method="get" class="form-inline search-form">
         <input type="hidden" name="p" value="list_items">
-        <input placeholder="Cari disini" type="text" name="search" class="form-control">
+        <input placeholder="Cari di sini" type="text" name="search" class="form-control" value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
         <button type="submit" class="btn btn-sm btn-primary">
-            <span class="glyphicon glyphicon-search"></span>
+            <span class="glyphicon glyphicon-search"></span> Cari
         </button>
     </form>
 </div>
 
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered table-responsive">
     <thead>
         <tr>
             <th>No</th>
@@ -28,24 +29,28 @@
     </thead>
     <tbody>
         <?php
+        // Ambil parameter pencarian
         @$search = $_GET['search'];
         $searchQuery = "";
         if (!empty($search)) {
-            $searchQuery .= " AND productName LIKE '%" . $search . "%'";
+            $searchQuery .= " AND productName LIKE '%" . mysqli_real_escape_string($connection, $search) . "%'";
         }
 
+        // Konfigurasi pagination
         $pagination = 5;
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $start = $page > 1 ? ($page - 1) * $pagination : 0;
 
-        $start = $page > 1 ? $page * $pagination - $pagination : 0;
-
-        $sql = "SELECT * FROM products WHERE 1=1 $searchQuery LIMIT $start,$pagination";
+        // Query utama dengan pagination dan pencarian
+        $sql = "SELECT * FROM products WHERE 1=1 $searchQuery LIMIT $start, $pagination";
         $query = mysqli_query($connection, $sql);
         $check = mysqli_num_rows($query);
-        // Cari total
-        $sqlTotal =  "SELECT * FROM products";
+
+        // Query total data untuk pagination
+        $sqlTotal = "SELECT COUNT(*) as total FROM products WHERE 1=1 $searchQuery";
         $queryTotal = mysqli_query($connection, $sqlTotal);
-        $total = mysqli_num_rows($queryTotal);
+        $dataTotal = mysqli_fetch_assoc($queryTotal);
+        $total = $dataTotal['total'];
         $numOfPages = ceil($total / $pagination);
 
         $no = $start + 1;
@@ -53,11 +58,11 @@
             while ($data = mysqli_fetch_array($query)) : ?>
         <tr>
             <td><?= $no++ ?></td>
-            <td><?= $data['productName'] ?></td>
-            <td><?= $data['category'] ?></td>
+            <td><?= htmlspecialchars($data['productName']) ?></td>
+            <td><?= htmlspecialchars($data['category']) ?></td>
             <td><?= "Rp " . number_format($data['price'], 0, ',', '.'); ?></td>
-            <td><?= $data['createdAt'] ?></td>
-            <td><?= $data['updatedAt'] ?></td>
+            <td><?= htmlspecialchars($data['createdAt']) ?></td>
+            <td><?= htmlspecialchars($data['updatedAt']) ?></td>
             <td>
                 <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $data['productId'] ?>)">
                     <span class="glyphicon glyphicon-trash"></span>
@@ -85,17 +90,17 @@
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="<?= ($page == 1) ? 'disabled' : '' ?>">
-                <a href="?p=list_items&page=<?= max(1, $page - 1) ?>" aria-label="Previous">
+                <a href="?p=list_items&page=<?= max(1, $page - 1) ?>&search=<?= urlencode($search) ?>" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <?php for ($i = 1; $i <= $numOfPages; $i++) : ?>
             <li class="<?= ($i == $page) ? 'active' : '' ?>">
-                <a href="?p=list_items&page=<?= $i ?>"><?= $i ?></a>
+                <a href="?p=list_items&page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
             </li>
             <?php endfor; ?>
             <li class="<?= ($page == $numOfPages) ? 'disabled' : '' ?>">
-                <a href="?p=list_items&page=<?= min($numOfPages, $page + 1) ?>" aria-label="Next">
+                <a href="?p=list_items&page=<?= min($numOfPages, $page + 1) ?>&search=<?= urlencode($search) ?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
