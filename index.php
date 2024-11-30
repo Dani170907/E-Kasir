@@ -148,6 +148,9 @@ date_default_timezone_set('Asia/Jakarta');
         case 'order':
           include "page/order.php";
           break;
+        case 'order_process':
+          include "page/order_process.php";
+          break;
         case 'transactions':
           include "page/transactions.php";
           break;

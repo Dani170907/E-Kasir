@@ -27,7 +27,7 @@ $customerCode = $char . sprintf("%03s", $serialNumber);
             <div class="panel-heading">Form Pesanan</div>
             <div class="panel-body">
 
-                <form action="" method="post">
+                <form action="order_process.php" method="post">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">ID Pelanggan</label>
